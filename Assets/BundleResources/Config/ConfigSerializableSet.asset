@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b78fd6f836ae2b04586b3b09c9c187cf, type: 3}
+  m_Name: ConfigSerializableSet
+  m_EditorClassIdentifier: 
+  entityConfigs:
+  - type: 1
+    subyType: 0
+    category: 0
+    prefab: {fileID: 1933434404403232, guid: b9c270b900ac1694d821bd5e644127a2, type: 2}
+  - type: 2
+    subyType: 0
+    category: 0
+    prefab: {fileID: 1799588278466910, guid: 77564a8aac17c474cb3fef3f5c104186, type: 2}
+  - type: 3
+    subyType: 1
+    category: 1
+    prefab: {fileID: 1979939215926236, guid: aff7d215e961fb64ba3402aeca960279, type: 2}
+  - type: 4
+    subyType: 2
+    category: 1
+    prefab: {fileID: 1483202006466852, guid: e59857247a2a4ba46b36260aba68bade, type: 2}
+  - type: 5
+    subyType: 3
+    category: 1
+    prefab: {fileID: 1721597061548256, guid: 986dd3a25903fc348ba8ad5d1dd32bde, type: 2}
+  - type: 6
+    subyType: 4
+    category: 1
+    prefab: {fileID: 1588689558682760, guid: e4ed382e14af6974a9dd0faf29564d60, type: 2}
+  - type: 7
+    subyType: 5
+    category: 1
+    prefab: {fileID: 1382113825946892, guid: cc2442636aff5934f8abf59a4c5a9a35, type: 2}
+  entityCategoryConfigs:
+  - entityCategory: 1
+    inherentAttributeCategories: 05000000
+  ruleConfigs:
+  - type: 1
+    subType: 1
+    ruleCategory: 0
+  - type: 2
+    subType: 2
+    ruleCategory: 0
+  - type: 3
+    subType: 1
+    ruleCategory: 3
+  - type: 4
+    subType: 1
+    ruleCategory: 2
+  - type: 5
+    subType: 2
+    ruleCategory: 2
+  entityTypeRuleConfigs:
+  - type: 1
+    entityType: 1
+  - type: 2
+    entityType: 2
+  entityCategoryRuleConfigs: []
+  attributeRuleConfigs:
+  - type: 1
+    attributeCategory: 5
+  - type: 2
+    attributeCategory: 1
+  keyWordRuleConfigs:
+  - type: 1
+    keyWordCategory: 0
+  mapConfigs:
+  - id: 1
+    size: {x: 5, y: 5}
+    blocks:
+    - entityType: 1
+      position: {x: 0, y: 0}
+    - entityType: 2
+      position: {x: 1, y: 0}
+    - entityType: 2
+      position: {x: 0, y: 1}
+    - entityType: 4
+      position: {x: 2, y: 1}
+    - entityType: 5
+      position: {x: 3, y: 1}
+    - entityType: 7
+      position: {x: 4, y: 1}
