@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Gfen.Game.Logic
 {
     [Serializable]
-    [CreateAssetMenu(fileName = "ConfigSerializableSet", menuName = "BabaIsYou/ConfigSerializableSet", order = 0)]
+    [CreateAssetMenu(fileName = "ConfigSerializableSet", menuName = "babaisyou/ConfigSerializableSet", order = 0)]
     public class ConfigSerializableSet : ScriptableObject
     {
         public EntityConfig[] entityConfigs;
@@ -42,34 +42,42 @@ namespace Gfen.Game.Logic
 
         public void Init()
         {
+            entityConfigDict.Clear();
             foreach (var entityConfig in entityConfigs)
             {
                 entityConfigDict[entityConfig.type] = entityConfig;
             }
+            entityCategoryConfigDict.Clear();
             foreach (var entityCategoryConfig in entityCategoryConfigs)
             {
                 entityCategoryConfigDict[entityCategoryConfig.entityCategory] = entityCategoryConfig;
             }
+            ruleConfigDict.Clear();
             foreach (var ruleConfig in ruleConfigs)
             {
                 ruleConfigDict[ruleConfig.type] = ruleConfig;
             }
+            entityTypeRuleConfigDict.Clear();
             foreach (var entityTypeRuleConfig in entityTypeRuleConfigs)
             {
                 entityTypeRuleConfigDict[entityTypeRuleConfig.type] = entityTypeRuleConfig;
             }
+            entityCategoryRuleConfigDict.Clear();
             foreach (var entityCategoryRuleConfig in entityCategoryRuleConfigs)
             {
                 entityCategoryRuleConfigDict[entityCategoryRuleConfig.type] = entityCategoryRuleConfig;
             }
+            attributeRuleConfigDict.Clear();
             foreach (var attributeRuleConfig in attributeRuleConfigs)
             {
                 attributeRuleConfigDict[attributeRuleConfig.type] = attributeRuleConfig;
             }
+            keyWordRuleConfigDict.Clear();
             foreach (var keyWordRuleConfig in keyWordRuleConfigs)
             {
                 keyWordRuleConfigDict[keyWordRuleConfig.type] = keyWordRuleConfig;
             }
+            mapConfigDict.Clear();
             foreach (var mapConfig in mapConfigs)
             {
                 mapConfigDict[mapConfig.id] = mapConfig;

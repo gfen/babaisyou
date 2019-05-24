@@ -8,16 +8,6 @@ namespace Gfen.Game.Logic
     {
         public int id;
 
-        public Vector2Int size;
-
-        public MapBlockConfig[] blocks;
-    }
-
-    [Serializable]
-    public class MapBlockConfig
-    {
-        public int entityType;
-
-        public Vector2Int position;
+        public Map map;
     }
 }

@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4984873807602858}
   - component: {fileID: 212368701014438416}
+  - component: {fileID: 114859262491609788}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
@@ -40,6 +41,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114859262491609788
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1799588278466910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 911afacbbc28de348a7aabd9e91fa966, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityType: 2
 --- !u!212 &212368701014438416
 SpriteRenderer:
   m_ObjectHideFlags: 1

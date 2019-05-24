@@ -75,17 +75,4 @@ MonoBehaviour:
     keyWordCategory: 0
   mapConfigs:
   - id: 1
-    size: {x: 5, y: 5}
-    blocks:
-    - entityType: 1
-      position: {x: 0, y: 0}
-    - entityType: 2
-      position: {x: 1, y: 0}
-    - entityType: 2
-      position: {x: 0, y: 1}
-    - entityType: 4
-      position: {x: 2, y: 1}
-    - entityType: 5
-      position: {x: 3, y: 1}
-    - entityType: 7
-      position: {x: 4, y: 1}
+    map: {fileID: 11400000, guid: 429a625cca7979649afdbffce8d4949c, type: 2}

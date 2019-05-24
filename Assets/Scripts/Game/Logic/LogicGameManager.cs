@@ -86,7 +86,7 @@ namespace Gfen.Game.Logic
 
         private void StartGameCore(int mapId)
         {
-            var mapConfig = m_gameManager.configSet.GetMapConfig(mapId);
+            var mapConfig = m_gameManager.configSet.GetMapConfig(mapId).map;
 
             m_map = new List<Block>[mapConfig.size.x, mapConfig.size.y];
             for (var i = 0; i < mapConfig.size.x; i++)
