@@ -128,7 +128,9 @@ namespace Gfen.Game.Map
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
-            ImportMap();
+            var mapRoot = GetMapRoot();
+
+            ClearMap(mapRoot);
         }
 
         private void ImportMap()
@@ -175,6 +177,7 @@ namespace Gfen.Game.Map
             }
             m_map.blocks = mapBlocks.ToArray();
 
+            EditorUtility.SetDirty(m_map);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
@@ -197,6 +200,7 @@ namespace Gfen.Game.Map
 
         private void ClearMap(MapRoot mapRoot)
         {
+            mapRoot.size = Vector2Int.zero;
             for (var i = mapRoot.transform.childCount - 1; i >= 0; i--)
             {
                 var mapBlockTransform = mapRoot.transform.GetChild(i);
@@ -216,6 +220,7 @@ namespace Gfen.Game.Map
                     mapBlockIdentifier = entityConfig.prefab.AddComponent<MapBlockIdentifier>();
                 }
                 mapBlockIdentifier.entityType = entityConfig.type;
+                EditorUtility.SetDirty(entityConfig.prefab);
             }
 
             AssetDatabase.SaveAssets();

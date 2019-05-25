@@ -11,5 +11,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77de6e6b1ecb5ff4bac93cf0fe45702a, type: 3}
   m_Name: 1
   m_EditorClassIdentifier: 
-  size: {x: 0, y: 0}
-  blocks: []
+  size: {x: 10, y: 10}
+  blocks:
+  - entityType: 1
+    position: {x: 0, y: 0}
+  - entityType: 3
+    position: {x: 4, y: 4}
+  - entityType: 5
+    position: {x: 5, y: 4}
+  - entityType: 7
+    position: {x: 6, y: 4}
+  - entityType: 2
+    position: {x: 3, y: 2}
+  - entityType: 2
+    position: {x: 4, y: 2}
+  - entityType: 4
+    position: {x: 8, y: 8}
+  - entityType: 5
+    position: {x: 8, y: 7}
+  - entityType: 6
+    position: {x: 8, y: 6}
