@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Gfen.Game.Config;
 using UnityEngine;
 
 namespace Gfen.Game.Logic
@@ -20,7 +21,7 @@ namespace Gfen.Game.Logic
 
         private RuleAnalyzer m_ruleAnalyzer;
 
-        private int m_mapId;
+        private MapConfig m_mapConfig;
 
         private List<Block>[,] m_map;
 
@@ -45,11 +46,11 @@ namespace Gfen.Game.Logic
             m_ruleAnalyzer = new RuleAnalyzer(this);
         }
 
-        public void StartGame(int mapId)
+        public void StartGame(MapConfig mapConfig)
         {
-            m_mapId = mapId;
+            m_mapConfig = mapConfig;
 
-            StartGameCore(m_mapId);
+            StartGameCore();
         }
 
         public void EndGame()
@@ -60,23 +61,21 @@ namespace Gfen.Game.Logic
         public void RestartGame()
         {
             EndGameCore();
-            StartGameCore(m_mapId);
+            StartGameCore();
         }
 
-        private void StartGameCore(int mapId)
+        private void StartGameCore()
         {
-            var mapConfig = m_gameManager.configSet.GetMapConfig(mapId).map;
-
-            m_map = new List<Block>[mapConfig.size.x, mapConfig.size.y];
-            for (var i = 0; i < mapConfig.size.x; i++)
+            m_map = new List<Block>[m_mapConfig.size.x, m_mapConfig.size.y];
+            for (var i = 0; i < m_mapConfig.size.x; i++)
             {
-                for (var j = 0; j < mapConfig.size.y; j++)
+                for (var j = 0; j < m_mapConfig.size.y; j++)
                 {
                     m_map[i, j] = new List<Block>();
                 }
             }
 
-            foreach (var mapBlockConfig in mapConfig.blocks)
+            foreach (var mapBlockConfig in m_mapConfig.blocks)
             {
                 var block = new Block();
                 block.entityType = mapBlockConfig.entityType;

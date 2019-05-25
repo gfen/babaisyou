@@ -1,4 +1,5 @@
-﻿using Gfen.Game.Logic;
+﻿using Gfen.Game.Config;
+using Gfen.Game.Logic;
 using Gfen.Game.Presentation;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ namespace Gfen.Game
             m_logicGameManager = new LogicGameManager(this);
             m_presentationGameManager = new PresentationGameManager(this, m_logicGameManager);
 
-            m_logicGameManager.StartGame(1);
+            m_logicGameManager.StartGame(configSet.GetLevelConfig(1).map);
             m_presentationGameManager.StartPresent();
             m_isInGame = true;
         }

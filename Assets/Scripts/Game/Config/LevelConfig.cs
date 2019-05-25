@@ -1,13 +1,13 @@
 using System;
 using UnityEngine;
 
-namespace Gfen.Game.Logic
+namespace Gfen.Game.Config
 {
     [Serializable]
-    public class MapConfig
+    public class LevelConfig
     {
         public int id;
 
-        public Map map;
+        public MapConfig map;
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 using Gfen.Game.Logic;
 using System.IO;
 using System.Collections.Generic;
+using Gfen.Game.Config;
 
 namespace Gfen.Game.Map
 {
@@ -18,9 +19,9 @@ namespace Gfen.Game.Map
 
         private string m_mapName;
 
-        private Logic.Map m_map;
+        private Config.MapConfig m_map;
 
-        private Logic.ConfigSerializableSet m_config;
+        private ConfigSerializableSet m_config;
 
         [MenuItem("babaisyou/MapWindow")]
         private static void ShowWindow() 
@@ -35,7 +36,7 @@ namespace Gfen.Game.Map
             if (EditorPrefs.HasKey(configPathKey))
             {
                 window.m_configPath = EditorPrefs.GetString(configPathKey, "");
-                window.m_config = AssetDatabase.LoadAssetAtPath<Logic.ConfigSerializableSet>(window.m_configPath);
+                window.m_config = AssetDatabase.LoadAssetAtPath<ConfigSerializableSet>(window.m_configPath);
             }
 
             window.Show();
@@ -55,7 +56,7 @@ namespace Gfen.Game.Map
             m_configPath = EditorGUILayout.TextField(m_configPath);
             if (GUILayout.Button("加载配置", GUILayout.Width(100)))
             {
-                m_config = AssetDatabase.LoadAssetAtPath<Logic.ConfigSerializableSet>(m_configPath);
+                m_config = AssetDatabase.LoadAssetAtPath<ConfigSerializableSet>(m_configPath);
                 EditorPrefs.SetString(configPathKey, m_configPath);
             }
             GUILayout.EndHorizontal();
@@ -74,7 +75,7 @@ namespace Gfen.Game.Map
 
             EditorGUILayout.Separator();
 
-            m_map = EditorGUILayout.ObjectField(m_map, typeof(Logic.Map), false) as Logic.Map;
+            m_map = EditorGUILayout.ObjectField(m_map, typeof(Config.MapConfig), false) as Config.MapConfig;
 
             GUI.enabled = m_map != null && m_config != null;
 
@@ -122,7 +123,7 @@ namespace Gfen.Game.Map
                 Directory.CreateDirectory(m_mapDirectory);
             }
 
-            m_map = ScriptableObject.CreateInstance<Logic.Map>();
+            m_map = ScriptableObject.CreateInstance<Config.MapConfig>();
             AssetDatabase.CreateAsset(m_map, path);
 
             AssetDatabase.SaveAssets();
@@ -161,14 +162,14 @@ namespace Gfen.Game.Map
 
             m_map.size = mapRoot.size;
 
-            var mapBlocks = new List<MapBlock>();
+            var mapBlocks = new List<MapBlockConfig>();
             for (var i = 0; i < mapRoot.transform.childCount; i++)
             {
                 var mapBlockTransform = mapRoot.transform.GetChild(i);
                 var mapBlockIdentifier = mapBlockTransform.GetComponent<MapBlockIdentifier>();
                 if (mapBlockIdentifier != null)
                 {
-                    mapBlocks.Add(new MapBlock 
+                    mapBlocks.Add(new MapBlockConfig 
                     { 
                         entityType = mapBlockIdentifier.entityType, 
                         position = new Vector2Int(Mathf.RoundToInt(mapBlockTransform.localPosition.x), Mathf.RoundToInt(mapBlockTransform.localPosition.y)),

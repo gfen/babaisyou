@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Gfen.Game.Logic;
 using UnityEngine;
 
-namespace Gfen.Game.Logic
+namespace Gfen.Game.Config
 {
     [Serializable]
     [CreateAssetMenu(fileName = "ConfigSerializableSet", menuName = "babaisyou/ConfigSerializableSet", order = 0)]
@@ -22,7 +23,7 @@ namespace Gfen.Game.Logic
 
         public KeyWordRuleConfig[] keyWordRuleConfigs;
 
-        public MapConfig[] mapConfigs;
+        public LevelConfig[] levelConfigs;
 
         public GameObject backgroundPrefab;
 
@@ -40,7 +41,7 @@ namespace Gfen.Game.Logic
 
         private Dictionary<int, KeyWordRuleConfig> keyWordRuleConfigDict = new Dictionary<int, KeyWordRuleConfig>();
 
-        private Dictionary<int, MapConfig> mapConfigDict = new Dictionary<int, MapConfig>();
+        private Dictionary<int, LevelConfig> levelConfigDict = new Dictionary<int, LevelConfig>();
 
         public void Init()
         {
@@ -79,10 +80,10 @@ namespace Gfen.Game.Logic
             {
                 keyWordRuleConfigDict[keyWordRuleConfig.type] = keyWordRuleConfig;
             }
-            mapConfigDict.Clear();
-            foreach (var mapConfig in mapConfigs)
+            levelConfigDict.Clear();
+            foreach (var levelConfig in levelConfigs)
             {
-                mapConfigDict[mapConfig.id] = mapConfig;
+                levelConfigDict[levelConfig.id] = levelConfig;
             }
         }
 
@@ -121,9 +122,9 @@ namespace Gfen.Game.Logic
             return keyWordRuleConfigDict[type];
         }
 
-        public MapConfig GetMapConfig(int id)
+        public LevelConfig GetLevelConfig(int id)
         {
-            return mapConfigDict[id];
+            return levelConfigDict[id];
         }
     }
 }
