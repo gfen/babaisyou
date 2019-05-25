@@ -88,6 +88,11 @@ namespace Gfen.Game
                     m_logicGameManager.RestartGame();
                     m_presentationGameManager.RefreshPresentation();
                 }
+
+                if (Input.GetKeyUp(KeyCode.Escape))
+                {
+                    uiManager.ShowPage<InGameSettingsPage>();
+                }
             }
         }
 
@@ -96,6 +101,13 @@ namespace Gfen.Game
             m_logicGameManager.StartGame(configSet.GetLevelConfig(levelId).map);
             m_presentationGameManager.StartPresent();
             m_isInGame = true;
+        }
+
+        public void StopGame()
+        {
+            m_presentationGameManager.StopPresent();
+            m_logicGameManager.StopGame();
+            m_isInGame = false;
         }
     }
 }

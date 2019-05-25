@@ -53,14 +53,14 @@ namespace Gfen.Game.Logic
             StartGameCore();
         }
 
-        public void EndGame()
+        public void StopGame()
         {
-            EndGameCore();
+            StopGameCore();
         }
 
         public void RestartGame()
         {
-            EndGameCore();
+            StopGameCore();
             StartGameCore();
         }
 
@@ -89,7 +89,7 @@ namespace Gfen.Game.Logic
             m_ruleAnalyzer.Apply(null);
         }
 
-        private void EndGameCore()
+        private void StopGameCore()
         {
             m_entityTypeAttributeDict.Clear();
             m_entityCategoryAttributeDict.Clear();

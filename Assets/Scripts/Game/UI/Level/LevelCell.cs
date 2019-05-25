@@ -13,6 +13,11 @@ namespace Gfen.Game.UI
         public GameObject passFlagGameObject;
 
         private LevelConfig m_levelConfig;
+
+        private void Awake() 
+        {
+            selectLevelButton.onClick.AddListener(OnSelectLevelButtonClicked);
+        }
         
         public void SetContent(LevelConfig levelConfig)
         {
@@ -21,9 +26,6 @@ namespace Gfen.Game.UI
             nameText.text = m_levelConfig.name;
 
             passFlagGameObject.SetActive(m_gameManager.LevelManager.IsLevelPassed(m_levelConfig.id));
-
-            selectLevelButton.onClick.RemoveAllListeners();
-            selectLevelButton.onClick.AddListener(OnSelectLevelButtonClicked);
         }
 
         private void OnSelectLevelButtonClicked()
