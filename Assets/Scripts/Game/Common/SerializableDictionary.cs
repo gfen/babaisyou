@@ -34,4 +34,7 @@ namespace Gfen.Game.Common
             }
         }
     }
+
+    [Serializable]
+    public class SerializableDictionaryOfIntAndInt : SerializableDictionary<int, int> { }
 }

@@ -75,6 +75,7 @@ MonoBehaviour:
     keyWordCategory: 0
   levelConfigs:
   - id: 1
+    name: Level 1
     map: {fileID: 11400000, guid: 429a625cca7979649afdbffce8d4949c, type: 2}
   backgroundPrefab: {fileID: 1798064068406830, guid: 81426acf110b12345a73a4c3088a969b,
     type: 2}

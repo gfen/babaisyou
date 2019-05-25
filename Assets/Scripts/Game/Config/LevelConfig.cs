@@ -8,6 +8,8 @@ namespace Gfen.Game.Config
     {
         public int id;
 
+        public string name;
+
         public MapConfig map;
     }
 }

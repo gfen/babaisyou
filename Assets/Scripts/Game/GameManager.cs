@@ -1,6 +1,8 @@
 ﻿using Gfen.Game.Config;
 using Gfen.Game.Logic;
+using Gfen.Game.Manager;
 using Gfen.Game.Presentation;
+using Gfen.Game.UI;
 using UnityEngine;
 
 namespace Gfen.Game
@@ -10,6 +12,12 @@ namespace Gfen.Game
         public ConfigSerializableSet configSet;
 
         public Camera gameCamera;
+
+        public UIManager uiManager;
+
+        private LevelManager m_levelManager;
+
+        public LevelManager LevelManager { get { return m_levelManager; } }
 
         private LogicGameManager m_logicGameManager;
 
@@ -21,13 +29,16 @@ namespace Gfen.Game
         {
             configSet.Init();
 
+            m_levelManager = new LevelManager();
+            m_levelManager.Init();
+
+            uiManager.Init(this);
+
             m_isInGame = false;
             m_logicGameManager = new LogicGameManager(this);
             m_presentationGameManager = new PresentationGameManager(this, m_logicGameManager);
 
-            m_logicGameManager.StartGame(configSet.GetLevelConfig(1).map);
-            m_presentationGameManager.StartPresent();
-            m_isInGame = true;
+            uiManager.ShowPage<LevelPage>();
         }
 
         private void Update() 
@@ -78,6 +89,13 @@ namespace Gfen.Game
                     m_presentationGameManager.RefreshPresentation();
                 }
             }
+        }
+
+        public void StartGame(int levelId)
+        {
+            m_logicGameManager.StartGame(configSet.GetLevelConfig(levelId).map);
+            m_presentationGameManager.StartPresent();
+            m_isInGame = true;
         }
     }
 }
