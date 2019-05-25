@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Gfen.Game.Logic;
+using Gfen.Game.Utility;
 using UnityEngine;
 
 namespace Gfen.Game.Presentation
@@ -9,6 +10,10 @@ namespace Gfen.Game.Presentation
         private GameManager m_gameManager;
 
         private LogicGameManager m_logicGameManager;
+
+        private Vector3 m_origin;
+
+        private Transform m_mapRoot;
 
         private Dictionary<Block, PresentationBlock> m_blockDict = new Dictionary<Block, PresentationBlock>();
 
@@ -25,23 +30,39 @@ namespace Gfen.Game.Presentation
             var mapXLength = map.GetLength(0);
             var mapYLength = map.GetLength(1);
 
+            m_origin = new Vector3(-mapXLength/2f + 0.5f, -mapYLength/2f + 0.5f, 0f);
+
+            m_mapRoot = new GameObject("MapRoot").transform;
+            m_mapRoot.transform.Reset();
+
+            var blockRoot = new GameObject("BlockRoot").transform;
+            blockRoot.SetParent(m_mapRoot, false);
+            blockRoot.Reset();
+
+            var backgroundRoot = new GameObject("BackgroundRoot").transform;
+            backgroundRoot.SetParent(m_mapRoot, false);
+            backgroundRoot.Reset();
+
             for (var i = 0; i < mapXLength; i++)
             {
                 for (var j = 0; j < mapYLength; j++)
                 {
+                    CreateBackground(backgroundRoot.transform, i, j);
                     foreach (var block in map[i, j])
                     {
-                        CreatePresentationBlock(block);
+                        CreatePresentationBlock(blockRoot.transform, block);
                     }
                 }
             }
+
+            m_gameManager.gameCamera.orthographicSize = mapYLength/2f;
         }
 
         public void StopPresent()
         {
-            foreach (var blockPair in m_blockDict)
+            if (m_mapRoot != null)
             {
-                Object.Destroy(blockPair.Value.blockGameObject);
+                Object.Destroy(m_mapRoot.gameObject);
             }
 
             m_blockDict.Clear();
@@ -53,7 +74,15 @@ namespace Gfen.Game.Presentation
             StartPresent();
         }
 
-        private void CreatePresentationBlock(Block block)
+        private void CreateBackground(Transform backgroundRoot, int x, int y)
+        {
+            var backgroundGameObject = Object.Instantiate(m_gameManager.configSet.backgroundPrefab);
+
+            backgroundGameObject.transform.SetParent(backgroundRoot, false);
+            backgroundGameObject.transform.position = new Vector3(x, y, 0) + m_origin;
+        }
+
+        private void CreatePresentationBlock(Transform blockRoot, Block block)
         {
             var presentationBlock = new PresentationBlock();
             presentationBlock.block = block;
@@ -63,7 +92,8 @@ namespace Gfen.Game.Presentation
             presentationBlock.blockGameObject = blockGameObject;
             presentationBlock.blockTransform = blockGameObject.transform;
 
-            presentationBlock.blockTransform.position = new Vector3(block.position.x*m_gameManager.unit, block.position.y*m_gameManager.unit, 0);
+            presentationBlock.blockTransform.SetParent(blockRoot, false);
+            presentationBlock.blockTransform.position = new Vector3(block.position.x, block.position.y, 0) + m_origin;
 
             m_blockDict[block] = presentationBlock;
         }

@@ -6,11 +6,7 @@ namespace Gfen.Game.Logic
 {
     public class LogicGameManager
     {
-        public Action GameStarted;
-
-        public Action GameEnded;
-
-        public Action GameRestarted;
+        public Action<bool> GameEnd;
 
         public Action<Block> BlockCreated;
 
@@ -40,8 +36,6 @@ namespace Gfen.Game.Logic
 
         private List<Block> m_cachedBlocks = new List<Block>();
 
-        private HashSet<AttributeCategory> m_cachedConversionAttributes = new HashSet<AttributeCategory>();
-
         private Stack<Command> m_cachedCommands = new Stack<Command>();
 
         public LogicGameManager(GameManager gameManager)
@@ -56,32 +50,17 @@ namespace Gfen.Game.Logic
             m_mapId = mapId;
 
             StartGameCore(m_mapId);
-
-            if (GameStarted != null)
-            {
-                GameStarted();
-            }
         }
 
         public void EndGame()
         {
             EndGameCore();
-
-            if (GameEnded != null)
-            {
-                GameEnded();
-            }
         }
 
         public void RestartGame()
         {
             EndGameCore();
             StartGameCore(m_mapId);
-
-            if (GameRestarted != null)
-            {
-                GameRestarted();
-            }
         }
 
         private void StartGameCore(int mapId)
@@ -185,9 +164,64 @@ namespace Gfen.Game.Logic
             m_ruleAnalyzer.Apply(tickCommands);
 
             m_tickCommandsStack.Push(tickCommands);
+
+            CheckGameResult();
         }
 
-        public void ForeachMapBlock(Action<Block> blockHandler)
+        private void CheckGameResult()
+        {
+            var gameResult = GetGameResult();
+            if (gameResult != GameResult.Uncertain)
+            {
+                if (GameEnd != null)
+                {
+                    GameEnd(gameResult == GameResult.Success);
+                }
+            }
+        }
+
+        private GameResult GetGameResult()
+        {
+            var gameResult = GameResult.Uncertain;
+            ForeachMapPosition(position =>
+            {
+                if (HasAttribute(position, AttributeCategory.You))
+                {
+                    if (HasAttribute(position, AttributeCategory.Win))
+                    {
+                        gameResult = GameResult.Success;
+                        return false;
+                    }
+                    if (HasAttribute(position, AttributeCategory.Defeat))
+                    {
+                        gameResult = GameResult.Failure;
+                    }
+                }
+
+                return true;
+            });
+
+            return gameResult;
+        }
+
+        public void ForeachMapPosition(Func<Vector2Int, bool> positionHandler)
+        {
+            var mapXLength = m_map.GetLength(0);
+            var mapYLength = m_map.GetLength(1);
+
+            for (var i = 0; i < mapXLength; i++)
+            {
+                for (var j = 0; j < mapYLength; j++)
+                {
+                    if (!positionHandler(new Vector2Int(i, j)))
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+
+        public void ForeachMapBlock(Func<Block, bool> blockHandler)
         {
             var mapXLength = m_map.GetLength(0);
             var mapYLength = m_map.GetLength(1);
@@ -198,7 +232,10 @@ namespace Gfen.Game.Logic
                 {
                     foreach (var block in m_map[i, j])
                     {
-                        blockHandler(block);
+                        if (!blockHandler(block))
+                        {
+                            return;
+                        }
                     }
                 }
             }
@@ -217,7 +254,7 @@ namespace Gfen.Game.Logic
             {
                 if (!HasAttribute(block, AttributeCategory.You))
                 {
-                    return;
+                    return true;
                 }
 
                 var youBlock = block;
@@ -253,6 +290,8 @@ namespace Gfen.Game.Logic
 
                     MoveBlock(youBlock, displacement, m_cachedCommands);
                 }
+
+                return true;
             });
 
             while (m_cachedCommands.Count > 0)

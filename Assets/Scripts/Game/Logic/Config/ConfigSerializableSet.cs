@@ -24,6 +24,8 @@ namespace Gfen.Game.Logic
 
         public MapConfig[] mapConfigs;
 
+        public GameObject backgroundPrefab;
+
         private Dictionary<int, EntityConfig> entityConfigDict = new Dictionary<int, EntityConfig>();
 
         private Dictionary<EntityCategory, EntityCategoryConfig> entityCategoryConfigDict = new Dictionary<EntityCategory, EntityCategoryConfig>();

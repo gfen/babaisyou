@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   configSet: {fileID: 11400000, guid: cf1f6dc2208d8954c9005dae7f83f5be, type: 2}
-  unit: 1
+  gameCamera: {fileID: 519420031}
 --- !u!4 &1552675556
 Transform:
   m_ObjectHideFlags: 0

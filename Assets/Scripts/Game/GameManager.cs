@@ -8,7 +8,7 @@ namespace Gfen.Game
     {
         public ConfigSerializableSet configSet;
 
-        public float unit = 0.1f;
+        public Camera gameCamera;
 
         private LogicGameManager m_logicGameManager;
 
@@ -69,6 +69,11 @@ namespace Gfen.Game
                 else if (Input.GetKeyUp(KeyCode.R))
                 {
                     m_logicGameManager.Redo();
+                    m_presentationGameManager.RefreshPresentation();
+                }
+                else if (Input.GetKeyUp(KeyCode.Q))
+                {
+                    m_logicGameManager.RestartGame();
                     m_presentationGameManager.RefreshPresentation();
                 }
             }
