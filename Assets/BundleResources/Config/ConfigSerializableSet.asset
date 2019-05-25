@@ -40,6 +40,18 @@ MonoBehaviour:
     subyType: 5
     category: 1
     prefab: {fileID: 1382113825946892, guid: cc2442636aff5934f8abf59a4c5a9a35, type: 2}
+  - type: 8
+    subyType: 0
+    category: 0
+    prefab: {fileID: 1059317288525290, guid: 8fbfca63cc3726446b49fd36878a97e0, type: 2}
+  - type: 9
+    subyType: 6
+    category: 1
+    prefab: {fileID: 1272750632735102, guid: 023e7bc17f8a5264181022e194f84b38, type: 2}
+  - type: 10
+    subyType: 7
+    category: 1
+    prefab: {fileID: 1201928059677090, guid: aeb923f9975a8e94f8705c19e33fde8f, type: 2}
   entityCategoryConfigs:
   - entityCategory: 1
     inherentAttributeCategories: 05000000
@@ -59,17 +71,27 @@ MonoBehaviour:
   - type: 5
     subType: 2
     ruleCategory: 2
+  - type: 6
+    subType: 3
+    ruleCategory: 0
+  - type: 7
+    subType: 3
+    ruleCategory: 2
   entityTypeRuleConfigs:
   - type: 1
     entityType: 1
   - type: 2
     entityType: 2
+  - type: 3
+    entityType: 8
   entityCategoryRuleConfigs: []
   attributeRuleConfigs:
   - type: 1
     attributeCategory: 5
   - type: 2
     attributeCategory: 1
+  - type: 3
+    attributeCategory: 2
   keyWordRuleConfigs:
   - type: 1
     keyWordCategory: 0

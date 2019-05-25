@@ -101,13 +101,26 @@ namespace Gfen.Game
             m_logicGameManager.StartGame(configSet.GetLevelConfig(levelId).map);
             m_presentationGameManager.StartPresent();
             m_isInGame = true;
+
+            m_logicGameManager.GameEnd += OnGameEnd;
         }
 
         public void StopGame()
         {
+            m_logicGameManager.GameEnd -= OnGameEnd;
+
             m_presentationGameManager.StopPresent();
             m_logicGameManager.StopGame();
             m_isInGame = false;
+        }
+
+        private void OnGameEnd(bool success)
+        {
+            if (success)
+            {
+                m_isInGame = false;
+                uiManager.ShowPage<GameSuccessPage>();
+            }
         }
     }
 }

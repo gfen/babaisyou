@@ -15,3 +15,17 @@ MonoBehaviour:
   blocks:
   - entityType: 1
     position: {x: 0, y: 0}
+  - entityType: 3
+    position: {x: 3, y: 3}
+  - entityType: 5
+    position: {x: 4, y: 3}
+  - entityType: 7
+    position: {x: 5, y: 3}
+  - entityType: 8
+    position: {x: 3, y: 0}
+  - entityType: 9
+    position: {x: 7, y: 4}
+  - entityType: 5
+    position: {x: 7, y: 3}
+  - entityType: 10
+    position: {x: 7, y: 2}
