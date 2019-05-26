@@ -9,7 +9,7 @@ namespace Gfen.Game
 {
     public class GameManager : MonoBehaviour
     {
-        public ConfigSerializableSet configSet;
+        public GameConfig gameConfig;
 
         public Camera gameCamera;
 
@@ -25,9 +25,11 @@ namespace Gfen.Game
 
         private bool m_isInGame;
 
+        private int m_currentLevelIndex;
+
         private void Start() 
         {
-            configSet.Init();
+            gameConfig.Init();
 
             m_levelManager = new LevelManager();
             m_levelManager.Init();
@@ -96,11 +98,12 @@ namespace Gfen.Game
             }
         }
 
-        public void StartGame(int levelId)
+        public void StartGame(int levelIndex)
         {
-            m_logicGameManager.StartGame(configSet.GetLevelConfig(levelId).map);
+            m_logicGameManager.StartGame(gameConfig.levelConfigs[levelIndex].map);
             m_presentationGameManager.StartPresent();
             m_isInGame = true;
+            m_currentLevelIndex = levelIndex;
 
             m_logicGameManager.GameEnd += OnGameEnd;
         }
@@ -119,6 +122,7 @@ namespace Gfen.Game
             if (success)
             {
                 m_isInGame = false;
+                m_levelManager.PassLevel(m_currentLevelIndex);
                 uiManager.ShowPage<GameSuccessPage>();
             }
         }

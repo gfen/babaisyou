@@ -162,7 +162,10 @@ namespace Gfen.Game.Logic
 
             m_ruleAnalyzer.Apply(tickCommands);
 
-            m_tickCommandsStack.Push(tickCommands);
+            if (tickCommands.Count > 0)
+            {
+                m_tickCommandsStack.Push(tickCommands);
+            }
 
             CheckGameResult();
         }
@@ -323,7 +326,7 @@ namespace Gfen.Game.Logic
             m_entityTypeAttributeDict.Clear();
             m_entityCategoryAttributeDict.Clear();
 
-            foreach (var entityCategoryConfig in m_gameManager.configSet.entityCategoryConfigs)
+            foreach (var entityCategoryConfig in m_gameManager.gameConfig.entityCategoryConfigs)
             {
                 foreach (var attributeCategory in entityCategoryConfig.inherentAttributeCategories)
                 {
@@ -410,7 +413,7 @@ namespace Gfen.Game.Logic
 
         private void GetAttributes(Block block, HashSet<AttributeCategory> attributeCategories)
         {
-            var blockEntityCategory = m_gameManager.configSet.GetEntityConfig(block.entityType).category;
+            var blockEntityCategory = m_gameManager.gameConfig.GetEntityConfig(block.entityType).category;
             var categoryAttributes = m_entityCategoryAttributeDict.ContainsKey(blockEntityCategory) ? m_entityCategoryAttributeDict[blockEntityCategory] : null;
             var typeAttributes = m_entityTypeAttributeDict.ContainsKey(block.entityType) ? m_entityTypeAttributeDict[block.entityType] : null;
 
@@ -443,7 +446,7 @@ namespace Gfen.Game.Logic
                 return true;
             }
 
-            var blockEntityCategory = m_gameManager.configSet.GetEntityConfig(block.entityType).category;
+            var blockEntityCategory = m_gameManager.gameConfig.GetEntityConfig(block.entityType).category;
             return m_entityCategoryAttributeDict.ContainsKey(blockEntityCategory) && m_entityCategoryAttributeDict[blockEntityCategory].Contains(attributeCategory);
         }
 

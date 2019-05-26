@@ -38,7 +38,7 @@ namespace Gfen.Game.Logic
 
         private void ConverseTargetBlock(Block block, Stack<Command> tickCommands)
         {
-            var blockEntityCategory = m_logicGameManager.GameManager.configSet.GetEntityConfig(block.entityType).category;
+            var blockEntityCategory = m_logicGameManager.GameManager.gameConfig.GetEntityConfig(block.entityType).category;
             if (m_originalEntityCategory == blockEntityCategory)
             {
                 var conversionCommand = new ConversionCommand(m_logicGameManager, block, m_targetEntityType);

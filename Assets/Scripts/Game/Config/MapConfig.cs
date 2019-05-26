@@ -8,6 +8,14 @@ namespace Gfen.Game.Config
     {
         public Vector2Int size;
 
-        public MapBlockConfig[] blocks;
+        public MapBlock[] blocks;
+    }
+
+    [Serializable]
+    public class MapBlock
+    {
+        public int entityType;
+
+        public Vector2Int position;
     }
 }

@@ -5,14 +5,23 @@ using UnityEngine;
 namespace Gfen.Game.Config
 {
     [Serializable]
-    public class EntityConfig
+    [CreateAssetMenu(fileName = "EntityConfig", menuName = "babaisyou/EntityConfig", order = 0)]
+    public class EntityConfig : ScriptableObject
     {
         public int type;
-
-        public int subyType;
+        
+        public GameObject prefab;
 
         public EntityCategory category;
 
-        public GameObject prefab;
+        public RuleCategory ruleCategory;
+
+        public int entityTypeForRule;
+
+        public EntityCategory entityCategoryForRule;
+
+        public AttributeCategory attributeCategoryForRule;
+
+        public KeyWordCategory keyWordCategoryForRule;
     }
 }

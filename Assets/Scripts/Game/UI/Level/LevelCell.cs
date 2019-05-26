@@ -12,26 +12,27 @@ namespace Gfen.Game.UI
 
         public GameObject passFlagGameObject;
 
-        private LevelConfig m_levelConfig;
+        private int m_levelIndex;
 
         private void Awake() 
         {
             selectLevelButton.onClick.AddListener(OnSelectLevelButtonClicked);
         }
         
-        public void SetContent(LevelConfig levelConfig)
+        public void SetContent(int levelIndex)
         {
-            m_levelConfig = levelConfig;
+            m_levelIndex = levelIndex;
 
-            nameText.text = m_levelConfig.name;
+            var levelConfig = m_gameManager.gameConfig.levelConfigs[levelIndex];
+            nameText.text = levelConfig.name;
 
-            passFlagGameObject.SetActive(m_gameManager.LevelManager.IsLevelPassed(m_levelConfig.id));
+            passFlagGameObject.SetActive(m_gameManager.LevelManager.IsLevelPassed(levelIndex));
         }
 
         private void OnSelectLevelButtonClicked()
         {
             m_gameManager.uiManager.HidePage();
-            m_gameManager.StartGame(m_levelConfig.id);
+            m_gameManager.StartGame(m_levelIndex);
         }
     }
 }

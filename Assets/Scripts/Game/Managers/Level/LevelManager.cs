@@ -25,10 +25,10 @@ namespace Gfen.Game.Manager
             PlayerPrefs.SetString(InfoKey, json);
         }
 
-        public bool IsLevelPassed(int levelId)
+        public bool IsLevelPassed(int levelIndex)
         {
             var isPassed = 0;
-            if (m_managerInfo.levelInfo.TryGetValue(levelId, out isPassed))
+            if (m_managerInfo.levelInfo.TryGetValue(levelIndex, out isPassed))
             {
                 return isPassed > 0;
             }
@@ -36,9 +36,9 @@ namespace Gfen.Game.Manager
             return false;
         }
 
-        public void PassLevel(int levelId)
+        public void PassLevel(int levelIndex)
         {
-            m_managerInfo.levelInfo[levelId] = 1;
+            m_managerInfo.levelInfo[levelIndex] = 1;
 
             SaveInfo();
         }

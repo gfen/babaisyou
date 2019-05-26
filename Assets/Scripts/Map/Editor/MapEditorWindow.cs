@@ -21,7 +21,7 @@ namespace Gfen.Game.Map
 
         private Config.MapConfig m_map;
 
-        private ConfigSerializableSet m_config;
+        private GameConfig m_config;
 
         [MenuItem("babaisyou/MapWindow")]
         private static void ShowWindow() 
@@ -36,7 +36,7 @@ namespace Gfen.Game.Map
             if (EditorPrefs.HasKey(configPathKey))
             {
                 window.m_configPath = EditorPrefs.GetString(configPathKey, "");
-                window.m_config = AssetDatabase.LoadAssetAtPath<ConfigSerializableSet>(window.m_configPath);
+                window.m_config = AssetDatabase.LoadAssetAtPath<GameConfig>(window.m_configPath);
             }
 
             window.Show();
@@ -56,7 +56,7 @@ namespace Gfen.Game.Map
             m_configPath = EditorGUILayout.TextField(m_configPath);
             if (GUILayout.Button("加载配置", GUILayout.Width(100)))
             {
-                m_config = AssetDatabase.LoadAssetAtPath<ConfigSerializableSet>(m_configPath);
+                m_config = AssetDatabase.LoadAssetAtPath<GameConfig>(m_configPath);
                 EditorPrefs.SetString(configPathKey, m_configPath);
             }
             GUILayout.EndHorizontal();
@@ -162,14 +162,14 @@ namespace Gfen.Game.Map
 
             m_map.size = mapRoot.size;
 
-            var mapBlocks = new List<MapBlockConfig>();
+            var mapBlocks = new List<MapBlock>();
             for (var i = 0; i < mapRoot.transform.childCount; i++)
             {
                 var mapBlockTransform = mapRoot.transform.GetChild(i);
                 var mapBlockIdentifier = mapBlockTransform.GetComponent<MapBlockIdentifier>();
                 if (mapBlockIdentifier != null)
                 {
-                    mapBlocks.Add(new MapBlockConfig 
+                    mapBlocks.Add(new MapBlock 
                     { 
                         entityType = mapBlockIdentifier.entityType, 
                         position = new Vector2Int(Mathf.RoundToInt(mapBlockTransform.localPosition.x), Mathf.RoundToInt(mapBlockTransform.localPosition.y)),

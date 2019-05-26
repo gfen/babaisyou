@@ -76,22 +76,20 @@ namespace Gfen.Game.Logic
 
         private bool IsTargetKeyWordRuleBlock(Block block, KeyWordCategory keyWordCategory)
         {
-            var configSet = m_logicGameManager.GameManager.configSet;
+            var gameConfig = m_logicGameManager.GameManager.gameConfig;
 
-            var entityConfig = configSet.GetEntityConfig(block.entityType);
+            var entityConfig = gameConfig.GetEntityConfig(block.entityType);
             if (entityConfig.category != EntityCategory.Rule)
             {
                 return false;
             }
 
-            var ruleConfig = configSet.GetRuleConfig(entityConfig.subyType);
-            if (ruleConfig.ruleCategory != RuleCategory.KeyWord)
+            if (entityConfig.ruleCategory != RuleCategory.KeyWord)
             {
                 return false;
             }
 
-            var keyWordConfig = configSet.GetKeyWordRuleConfig(ruleConfig.subType);
-            if (keyWordConfig.keyWordCategory != keyWordCategory)
+            if (entityConfig.keyWordCategoryForRule != keyWordCategory)
             {
                 return false;
             }
@@ -101,16 +99,15 @@ namespace Gfen.Game.Logic
 
         private bool IsTargetRuleBlock(Block block, RuleCategory ruleCategory)
         {
-            var configSet = m_logicGameManager.GameManager.configSet;
+            var gameConfig = m_logicGameManager.GameManager.gameConfig;
 
-            var entityConfig = configSet.GetEntityConfig(block.entityType);
+            var entityConfig = gameConfig.GetEntityConfig(block.entityType);
             if (entityConfig.category != EntityCategory.Rule)
             {
                 return false;
             }
 
-            var ruleConfig = configSet.GetRuleConfig(entityConfig.subyType);
-            if (ruleConfig.ruleCategory != ruleCategory)
+            if (entityConfig.ruleCategory != ruleCategory)
             {
                 return false;
             }
@@ -134,7 +131,7 @@ namespace Gfen.Game.Logic
 
         private void FindDirectionRules(Vector2Int direction, List<Block> isKeyWordRuleBlocks, List<Rule> resultRules)
         {
-            var configSet = m_logicGameManager.GameManager.configSet;
+            var configSet = m_logicGameManager.GameManager.gameConfig;
 
             foreach (var isKeyWordRuleBlock in isKeyWordRuleBlocks)
             {
@@ -144,39 +141,31 @@ namespace Gfen.Game.Logic
                 foreach (var backwardRuleBlock in m_cachedBackwardRuleBlocks)
                 {
                     var backwardEntityConfig = configSet.GetEntityConfig(backwardRuleBlock.entityType);
-                    var backwardRuleConfig = configSet.GetRuleConfig(backwardEntityConfig.subyType);
 
                     foreach (var forwardRuleBlock in m_cachedForwardRuleBlocks)
                     {
                         var forwardEntityConfig = configSet.GetEntityConfig(forwardRuleBlock.entityType);
-                        var forwardRuleConfig = configSet.GetRuleConfig(forwardEntityConfig.subyType);
 
-                        if (backwardRuleConfig.ruleCategory == RuleCategory.EntityType)
+                        if (backwardEntityConfig.ruleCategory == RuleCategory.EntityType)
                         {
-                            var backwardEntityTypeRuleConfig = configSet.GetEntityTypeRuleConfig(backwardRuleConfig.subType);
-                            if (forwardRuleConfig.ruleCategory == RuleCategory.EntityType)
+                            if (forwardEntityConfig.ruleCategory == RuleCategory.EntityType)
                             {
-                                var forwardEntityTypeRuleConfig = configSet.GetEntityTypeRuleConfig(forwardRuleConfig.subType);
-                                resultRules.Add(new EntityTypeIsEntityTypeRule(m_logicGameManager, backwardEntityTypeRuleConfig.entityType, forwardEntityTypeRuleConfig.entityType));
+                                resultRules.Add(new EntityTypeIsEntityTypeRule(m_logicGameManager, backwardEntityConfig.entityTypeForRule, forwardEntityConfig.entityTypeForRule));
                             }
-                            else if (forwardRuleConfig.ruleCategory == RuleCategory.Attribute)
+                            else if (forwardEntityConfig.ruleCategory == RuleCategory.Attribute)
                             {
-                                var forwardAttributeRuleConfig = configSet.GetAttributeRuleConfig(forwardRuleConfig.subType);
-                                resultRules.Add(new EntityTypeIsAttributeRule(m_logicGameManager, backwardEntityTypeRuleConfig.entityType, forwardAttributeRuleConfig.attributeCategory));
+                                resultRules.Add(new EntityTypeIsAttributeRule(m_logicGameManager, backwardEntityConfig.entityTypeForRule, forwardEntityConfig.attributeCategoryForRule));
                             }
                         }
-                        else if (backwardRuleConfig.ruleCategory == RuleCategory.EntityCategory)
+                        else if (backwardEntityConfig.ruleCategory == RuleCategory.EntityCategory)
                         {
-                            var backwardEntityCategoryRuleConfig = configSet.GetEntityCategoryRuleConfig(backwardRuleConfig.subType);
-                            if (forwardRuleConfig.ruleCategory == RuleCategory.EntityType)
+                            if (forwardEntityConfig.ruleCategory == RuleCategory.EntityType)
                             {
-                                var forwardEntityTypeRuleConfig = configSet.GetEntityTypeRuleConfig(forwardRuleConfig.subType);
-                                resultRules.Add(new EntityCategoryIsEntityTypeRule(m_logicGameManager, backwardEntityCategoryRuleConfig.entityCategory, forwardEntityTypeRuleConfig.entityType));
+                                resultRules.Add(new EntityCategoryIsEntityTypeRule(m_logicGameManager, backwardEntityConfig.entityCategoryForRule, forwardEntityConfig.entityTypeForRule));
                             }
-                            else if (forwardRuleConfig.ruleCategory == RuleCategory.Attribute)
+                            else if (forwardEntityConfig.ruleCategory == RuleCategory.Attribute)
                             {
-                                var forwardAttributeRuleConfig = configSet.GetAttributeRuleConfig(forwardRuleConfig.subType);
-                                resultRules.Add(new EntityCategoryIsAttributeRule(m_logicGameManager, backwardEntityCategoryRuleConfig.entityCategory, forwardAttributeRuleConfig.attributeCategory));
+                                resultRules.Add(new EntityCategoryIsAttributeRule(m_logicGameManager, backwardEntityConfig.entityCategoryForRule, forwardEntityConfig.attributeCategoryForRule));
                             }
                         }
                     }

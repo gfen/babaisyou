@@ -2,9 +2,7 @@ namespace Gfen.Game.Logic
 {
     public enum AttributeCategory
     {
-        None = 0,
-
-        You,
+        You = 0,
 
         Win,
 

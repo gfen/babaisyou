@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 348920811e7500d4c99ee36d15f6410a, type: 3}
+  m_Name: 10004_WallRule
+  m_EditorClassIdentifier: 
+  type: 10004
+  prefab: {fileID: 1618884549654382, guid: 6c70abda81b6475459e332f44b836a63, type: 2}
+  category: 1
+  ruleCategory: 0
+  entityTypeForRule: 4
+  entityCategoryForRule: 0
+  attributeCategoryForRule: 0
+  keyWordCategoryForRule: 0

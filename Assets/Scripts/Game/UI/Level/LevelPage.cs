@@ -15,7 +15,7 @@ namespace Gfen.Game.UI
         {
             base.OnShow();
 
-            var levelConfigs = m_gameManager.configSet.levelConfigs;
+            var levelConfigs = m_gameManager.gameConfig.levelConfigs;
             while (m_levelCells.Count < levelConfigs.Length)
             {
                 var levelCell = UIUtils.InstantiateUICell(levelListRootTransform, templateLevelCell);
@@ -23,9 +23,8 @@ namespace Gfen.Game.UI
             }
             for (var i = 0; i < levelConfigs.Length; i++)
             {
-                var levelConfig = levelConfigs[i];
                 m_levelCells[i].Show(m_gameManager);
-                m_levelCells[i].SetContent(levelConfig);
+                m_levelCells[i].SetContent(i);
             }
             for (var i = levelConfigs.Length; i < m_levelCells.Count; i++)
             {

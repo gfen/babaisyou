@@ -1688,7 +1688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12166ba994c5edd4b86343c1112a47e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  configSet: {fileID: 11400000, guid: cf1f6dc2208d8954c9005dae7f83f5be, type: 2}
+  gameConfig: {fileID: 11400000, guid: 9ca0585152052de48a35ad4817fd2128, type: 2}
   gameCamera: {fileID: 519420031}
   uiManager: {fileID: 1552675557}
 --- !u!4 &1552675556

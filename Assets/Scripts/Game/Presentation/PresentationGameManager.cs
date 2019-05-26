@@ -76,7 +76,7 @@ namespace Gfen.Game.Presentation
 
         private void CreateBackground(Transform backgroundRoot, int x, int y)
         {
-            var backgroundGameObject = Object.Instantiate(m_gameManager.configSet.backgroundPrefab);
+            var backgroundGameObject = Object.Instantiate(m_gameManager.gameConfig.backgroundPrefab);
 
             backgroundGameObject.transform.SetParent(backgroundRoot, false);
             backgroundGameObject.transform.position = new Vector3(x, y, 0) + m_origin;
@@ -87,7 +87,7 @@ namespace Gfen.Game.Presentation
             var presentationBlock = new PresentationBlock();
             presentationBlock.block = block;
             
-            var entityConfig = m_gameManager.configSet.GetEntityConfig(block.entityType);
+            var entityConfig = m_gameManager.gameConfig.GetEntityConfig(block.entityType);
             var blockGameObject = Object.Instantiate(entityConfig.prefab);
             presentationBlock.blockGameObject = blockGameObject;
             presentationBlock.blockTransform = blockGameObject.transform;
