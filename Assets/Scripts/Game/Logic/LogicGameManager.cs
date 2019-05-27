@@ -253,10 +253,17 @@ namespace Gfen.Game.Logic
 
             GetBlocksWithAttribute(AttributeCategory.You, youBlocks);
 
+            var handledYouBlocks = HashSetPool<Block>.Get();
+
             foreach (var youBlock in youBlocks)
             {
+                if (handledYouBlocks.Contains(youBlock))
+                {
+                    continue;
+                }
+
                 var positiveEndPushPosition = youBlock.position;
-                while (InMap(positiveEndPushPosition + displacement) && HasAttribute(positiveEndPushPosition + displacement, AttributeCategory.Push))
+                while (InMap(positiveEndPushPosition + displacement) && (HasAttribute(positiveEndPushPosition + displacement, AttributeCategory.Push) || HasAttribute(positiveEndPushPosition + displacement, AttributeCategory.You)))
                 {
                     positiveEndPushPosition += displacement;
                 }
@@ -276,7 +283,7 @@ namespace Gfen.Game.Logic
                         var attributeBlocks = ListPool<Block>.Get();
 
                         GetBlocksWithAttribute(position, AttributeCategory.Push, attributeBlocks);
-                        AddMoveBlockCommandsByYou(attributeBlocks, displacement, cachedCommands);
+                        AddMoveBlockCommandsByYou(attributeBlocks, displacement, handledYouBlocks, cachedCommands);
 
                         ListPool<Block>.Release(attributeBlocks);
                     }
@@ -286,12 +293,14 @@ namespace Gfen.Game.Logic
                         var attributeBlocks = ListPool<Block>.Get();
 
                         GetBlocksWithAttribute(position, AttributeCategory.Pull, attributeBlocks);
-                        AddMoveBlockCommandsByYou(attributeBlocks, displacement, cachedCommands);
+                        AddMoveBlockCommandsByYou(attributeBlocks, displacement, handledYouBlocks, cachedCommands);
 
                         ListPool<Block>.Release(attributeBlocks);
                     }
 
                     AddMoveBlockCommand(youBlock, displacement, cachedCommands);
+
+                    handledYouBlocks.Add(youBlock);
 
                     foreach (var cachedCommand in cachedCommands)
                     {
@@ -303,16 +312,20 @@ namespace Gfen.Game.Logic
                 }
             }
 
+            HashSetPool<Block>.Release(handledYouBlocks);
+
             ListPool<Block>.Release(youBlocks);
         }
 
-        private void AddMoveBlockCommandsByYou(List<Block> blocks, Vector2Int displacement, List<Command> tickCommands)
+        private void AddMoveBlockCommandsByYou(List<Block> blocks, Vector2Int displacement, HashSet<Block> handledYouBlocks, List<Command> tickCommands)
         {
             foreach (var block in blocks)
             {
-                if (!HasAttribute(block, AttributeCategory.You))
+                AddMoveBlockCommand(block, displacement, tickCommands);
+
+                if (HasAttribute(block, AttributeCategory.You))
                 {
-                    AddMoveBlockCommand(block, displacement, tickCommands);
+                    handledYouBlocks.Add(block);    
                 }
             }
         }
