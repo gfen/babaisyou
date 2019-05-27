@@ -7,5 +7,7 @@ namespace Gfen.Game.Logic
         public int entityType;
 
         public Vector2Int position;
+
+        public Direction direction;
     }
 }

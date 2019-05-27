@@ -1,4 +1,5 @@
 using System;
+using Gfen.Game.Logic;
 using UnityEngine;
 
 namespace Gfen.Game.Config
@@ -17,5 +18,7 @@ namespace Gfen.Game.Config
         public int entityType;
 
         public Vector2Int position;
+
+        public Direction direction;
     }
 }

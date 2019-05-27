@@ -10,9 +10,9 @@ namespace Gfen.Game.Logic
     {
         public Action<bool> GameEnd;
 
-        public Action<Block> BlockCreated;
+        public Action<Block> BlockMoved;
 
-        public Action<Block> BlockPositionUpdated;
+        public Action<Block> BlockTeleported;
 
         public Action<Block> BlockDestroyed;
 
@@ -77,6 +77,7 @@ namespace Gfen.Game.Logic
                 var block = new Block();
                 block.entityType = mapBlockConfig.entityType;
                 block.position = mapBlockConfig.position;
+                block.direction = mapBlockConfig.direction;
 
                 AddMapBlock(block);
             }
@@ -247,7 +248,8 @@ namespace Gfen.Game.Logic
                 return;
             }
 
-            var displacement = GetOperationDisplacement(operationType);
+            var direction = GetOperationDirection(operationType);
+            var displacement = DirectionUtils.DirectionToDisplacement(direction);
 
             var youBlocks = ListPool<Block>.Get();
 
@@ -283,7 +285,7 @@ namespace Gfen.Game.Logic
                         var attributeBlocks = ListPool<Block>.Get();
 
                         GetBlocksWithAttribute(position, AttributeCategory.Push, attributeBlocks);
-                        AddMoveBlockCommandsByYou(attributeBlocks, displacement, handledYouBlocks, cachedCommands);
+                        AddMoveBlockCommandsByYou(attributeBlocks, direction, 1, handledYouBlocks, cachedCommands);
 
                         ListPool<Block>.Release(attributeBlocks);
                     }
@@ -293,12 +295,12 @@ namespace Gfen.Game.Logic
                         var attributeBlocks = ListPool<Block>.Get();
 
                         GetBlocksWithAttribute(position, AttributeCategory.Pull, attributeBlocks);
-                        AddMoveBlockCommandsByYou(attributeBlocks, displacement, handledYouBlocks, cachedCommands);
+                        AddMoveBlockCommandsByYou(attributeBlocks, direction, 1, handledYouBlocks, cachedCommands);
 
                         ListPool<Block>.Release(attributeBlocks);
                     }
 
-                    AddMoveBlockCommand(youBlock, displacement, cachedCommands);
+                    AddMoveBlockCommand(youBlock, direction, 1, cachedCommands);
 
                     handledYouBlocks.Add(youBlock);
 
@@ -317,11 +319,11 @@ namespace Gfen.Game.Logic
             ListPool<Block>.Release(youBlocks);
         }
 
-        private void AddMoveBlockCommandsByYou(List<Block> blocks, Vector2Int displacement, HashSet<Block> handledYouBlocks, List<Command> tickCommands)
+        private void AddMoveBlockCommandsByYou(List<Block> blocks, Direction direction, int length, HashSet<Block> handledYouBlocks, List<Command> tickCommands)
         {
             foreach (var block in blocks)
             {
-                AddMoveBlockCommand(block, displacement, tickCommands);
+                AddMoveBlockCommand(block, direction, length, tickCommands);
 
                 if (HasAttribute(block, AttributeCategory.You))
                 {
@@ -330,15 +332,15 @@ namespace Gfen.Game.Logic
             }
         }
 
-        private Vector2Int GetOperationDisplacement(OperationType operationType)
+        private Direction GetOperationDirection(OperationType operationType)
         {
             switch (operationType)
             {
-                case OperationType.Up: return Vector2Int.up;
-                case OperationType.Down: return Vector2Int.down;
-                case OperationType.Left: return Vector2Int.left;
-                case OperationType.Right: return Vector2Int.right;
-                default: return Vector2Int.zero;
+                case OperationType.Up: return Direction.Up;
+                case OperationType.Down: return Direction.Down;
+                case OperationType.Left: return Direction.Left;
+                case OperationType.Right: return Direction.Right;
+                default: return Direction.Up;
             }
         }
 
@@ -361,9 +363,9 @@ namespace Gfen.Game.Logic
             }
         }
 
-        private void AddMoveBlockCommand(Block block, Vector2Int displacement, List<Command> cachedCommands)
+        private void AddMoveBlockCommand(Block block, Direction direction, int length, List<Command> cachedCommands)
         {
-            var moveCommand = new MoveCommand(this, block, displacement);
+            var moveCommand = new MoveCommand(this, block, direction, length);
             cachedCommands.Add(moveCommand);
         }
 
@@ -372,11 +374,6 @@ namespace Gfen.Game.Logic
             RemoveMapBlock(block);
             block.position = position;
             AddMapBlock(block);
-
-            if (BlockPositionUpdated != null)
-            {
-                BlockPositionUpdated(block);
-            }
         }
 
         private void RemoveMapBlock(Block block)

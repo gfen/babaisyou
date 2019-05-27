@@ -8,23 +8,42 @@ namespace Gfen.Game.Logic
 
         private Block m_block;
 
-        private Vector2Int m_displacement;
+        private Direction m_targetDirection;
 
-        public MoveCommand(LogicGameManager logicManager, Block block, Vector2Int displacement)
+        private int m_targetLength;
+
+        private Vector2Int m_originalPosition;
+
+        private Direction m_originalDirection;
+
+        public MoveCommand(LogicGameManager logicManager, Block block, Direction direction, int length)
         {
             m_logicGameManager = logicManager;
             m_block = block;
-            m_displacement = displacement;
+            m_targetDirection = direction;
+            m_targetLength = length;
+
+            m_originalPosition = block.position;
+            m_originalDirection = block.direction;
         }
         
         protected override void OnPerform()
         {
-            m_logicGameManager.SetBlockPosition(m_block, m_block.position + m_displacement);
+            var displacement = DirectionUtils.DirectionToDisplacement(m_targetDirection)*m_targetLength;
+
+            m_logicGameManager.SetBlockPosition(m_block, m_block.position + displacement);
+            m_block.direction = m_targetDirection;
+
+            if (m_logicGameManager.BlockMoved != null)
+            {
+                m_logicGameManager.BlockMoved(m_block);
+            }
         }
 
         protected override void OnUndo()
         {
-            m_logicGameManager.SetBlockPosition(m_block, m_block.position - m_displacement);
+            m_logicGameManager.SetBlockPosition(m_block, m_originalPosition);
+            m_block.direction = m_originalDirection;
         }
     }
 }
