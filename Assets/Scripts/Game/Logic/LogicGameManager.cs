@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Gfen.Game.Common;
 using Gfen.Game.Config;
 using UnityEngine;
 
@@ -34,10 +35,6 @@ namespace Gfen.Game.Logic
         private Stack<Stack<Command>> m_tickCommandsStack = new Stack<Stack<Command>>();
 
         private Stack<Stack<Command>> m_redoCommandsStack = new Stack<Stack<Command>>();
-
-        private List<Block> m_cachedBlocks = new List<Block>();
-
-        private Stack<Command> m_cachedCommands = new Stack<Command>();
 
         public LogicGameManager(GameManager gameManager)
         {
@@ -252,14 +249,12 @@ namespace Gfen.Game.Logic
 
             var displacement = GetOperationDisplacement(operationType);
 
-            ForeachMapBlock(block => 
-            {
-                if (!HasAttribute(block, AttributeCategory.You))
-                {
-                    return true;
-                }
+            var youBlocks = ListPool<Block>.Get();
 
-                var youBlock = block;
+            GetBlocksWithAttribute(AttributeCategory.You, youBlocks);
+
+            foreach (var youBlock in youBlocks)
+            {
                 var positiveEndPushPosition = youBlock.position;
                 while (InMap(positiveEndPushPosition + displacement) && HasAttribute(positiveEndPushPosition + displacement, AttributeCategory.Push))
                 {
@@ -274,33 +269,51 @@ namespace Gfen.Game.Logic
 
                 if (InMap(positiveEndPushPosition + displacement) && !HasAttribute(positiveEndPushPosition + displacement, AttributeCategory.Stop) && !HasAttribute(positiveEndPushPosition + displacement, AttributeCategory.Pull))
                 {
+                    var cachedCommands = ListPool<Command>.Get();
+
                     for (var position = youBlock.position + displacement; position != positiveEndPushPosition + displacement; position += displacement)
                     {
-                        GetBlocksWithAttribute(position, AttributeCategory.Push, m_cachedBlocks);
-                        MoveBlocks(m_cachedBlocks, displacement, m_cachedCommands);
+                        var attributeBlocks = ListPool<Block>.Get();
 
-                        m_cachedBlocks.Clear();
+                        GetBlocksWithAttribute(position, AttributeCategory.Push, attributeBlocks);
+                        AddMoveBlockCommandsByYou(attributeBlocks, displacement, cachedCommands);
+
+                        ListPool<Block>.Release(attributeBlocks);
                     }
 
                     for (var position = negativeEndPullPosition; position != youBlock.position; position += displacement)
                     {
-                        GetBlocksWithAttribute(position, AttributeCategory.Pull, m_cachedBlocks);
-                        MoveBlocks(m_cachedBlocks, displacement, m_cachedCommands);
+                        var attributeBlocks = ListPool<Block>.Get();
 
-                        m_cachedBlocks.Clear();
+                        GetBlocksWithAttribute(position, AttributeCategory.Pull, attributeBlocks);
+                        AddMoveBlockCommandsByYou(attributeBlocks, displacement, cachedCommands);
+
+                        ListPool<Block>.Release(attributeBlocks);
                     }
 
-                    MoveBlock(youBlock, displacement, m_cachedCommands);
+                    AddMoveBlockCommand(youBlock, displacement, cachedCommands);
+
+                    foreach (var cachedCommand in cachedCommands)
+                    {
+                        cachedCommand.Perform();
+                        tickCommands.Push(cachedCommand);
+                    }
+
+                    ListPool<Command>.Release(cachedCommands);
                 }
+            }
 
-                return true;
-            });
+            ListPool<Block>.Release(youBlocks);
+        }
 
-            while (m_cachedCommands.Count > 0)
+        private void AddMoveBlockCommandsByYou(List<Block> blocks, Vector2Int displacement, List<Command> tickCommands)
+        {
+            foreach (var block in blocks)
             {
-                var command = m_cachedCommands.Pop();
-                command.Perform();
-                tickCommands.Push(command);
+                if (!HasAttribute(block, AttributeCategory.You))
+                {
+                    AddMoveBlockCommand(block, displacement, tickCommands);
+                }
             }
         }
 
@@ -335,19 +348,10 @@ namespace Gfen.Game.Logic
             }
         }
 
-        private void MoveBlock(Block block, Vector2Int displacement, Stack<Command> tickCommands)
+        private void AddMoveBlockCommand(Block block, Vector2Int displacement, List<Command> cachedCommands)
         {
             var moveCommand = new MoveCommand(this, block, displacement);
-            // moveCommand.Perform();
-            tickCommands.Push(moveCommand);
-        }
-
-        private void MoveBlocks(List<Block> blocks, Vector2Int displacement, Stack<Command> tickCommands)
-        {
-            foreach (var block in blocks)
-            {
-                MoveBlock(block, displacement, tickCommands);
-            }
+            cachedCommands.Add(moveCommand);
         }
 
         public void SetBlockPosition(Block block, Vector2Int position)
@@ -462,6 +466,26 @@ namespace Gfen.Game.Logic
             }
 
             return false;
+        }
+
+        private void GetBlocksWithAttribute(AttributeCategory attributeCategory, List<Block> blocks)
+        {
+            var mapXLength = m_map.GetLength(0);
+            var mapYLength = m_map.GetLength(1);
+
+            for (var i = 0; i < mapXLength; i++)
+            {
+                for (var j = 0; j < mapYLength; j++)
+                {
+                    foreach (var block in m_map[i, j])
+                    {
+                        if (HasAttribute(block, attributeCategory))
+                        {
+                            blocks.Add(block);
+                        }
+                    }
+                }
+            }
         }
 
         private void GetBlocksWithAttribute(Vector2Int position, AttributeCategory attributeCategory, List<Block> blocks)
