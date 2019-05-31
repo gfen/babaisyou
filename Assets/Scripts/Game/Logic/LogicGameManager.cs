@@ -156,6 +156,7 @@ namespace Gfen.Game.Logic
             var tickCommands = new Stack<Command>();
 
             HandleAttributeYou(operationType, tickCommands);
+            HandleAttributeMove(tickCommands);
 
             RefreshAttributes();
 
@@ -239,6 +240,18 @@ namespace Gfen.Game.Logic
                         }
                     }
                 }
+            }
+        }
+
+        private Direction GetOperationDirection(OperationType operationType)
+        {
+            switch (operationType)
+            {
+                case OperationType.Up: return Direction.Up;
+                case OperationType.Down: return Direction.Down;
+                case OperationType.Left: return Direction.Left;
+                case OperationType.Right: return Direction.Right;
+                default: return Direction.Up;
             }
         }
 
@@ -347,7 +360,7 @@ namespace Gfen.Game.Logic
                         }
                     }
                 }
-                for (var position = positiveEndPosition - displacement; position != negativeEndPosition; position -= displacement)
+                for (var position = positiveEndPosition - displacement; position != negativeEndPosition + displacement; position -= displacement)
                 {
                     var hasStop = false;
                     {
@@ -400,16 +413,225 @@ namespace Gfen.Game.Logic
             ListPool<Block>.Release(youBlocks);
         }
 
-        private Direction GetOperationDirection(OperationType operationType)
+        private void HandleAttributeMove(Stack<Command> tickCommands)
         {
-            switch (operationType)
+            var moveBlocks = ListPool<Block>.Get();
+
+            GetBlocksWithAttribute(AttributeCategory.Move, moveBlocks);
+
+            var handledMoveBlocks = HashSetPool<Block>.Get();
+
+            foreach (var moveBlock in moveBlocks)
             {
-                case OperationType.Up: return Direction.Up;
-                case OperationType.Down: return Direction.Down;
-                case OperationType.Left: return Direction.Left;
-                case OperationType.Right: return Direction.Right;
-                default: return Direction.Up;
+                if (handledMoveBlocks.Contains(moveBlock))
+                {
+                    continue;
+                }
+
+                var displacement = DirectionUtils.DirectionToDisplacement(moveBlock.direction);
+
+                var negativeEndPosition = moveBlock.position - displacement;
+                while (InMap(negativeEndPosition))
+                {
+                    negativeEndPosition -= displacement;
+                }
+
+                var positiveEndPosition = moveBlock.position + displacement;
+                while (InMap(positiveEndPosition))
+                {
+                    positiveEndPosition += displacement;
+                }
+
+                var impactBlocks = DictionaryPool<Block, int>.Get();
+
+                for (var position = negativeEndPosition + displacement; position != positiveEndPosition; position += displacement)
+                {
+                    var blocks = m_map[position.x, position.y];
+                    foreach (var block in blocks)
+                    {
+                        if (!HasAttribute(block, AttributeCategory.Move) || !DirectionUtils.IsParallel(moveBlock.direction, block.direction))
+                        {
+                            continue;
+                        }
+                        var impactDirection = 1;
+                        var impactDisplacement = displacement;
+                        if (block.direction != moveBlock.direction)
+                        {
+                            impactDirection = 2;
+                            impactDisplacement = Vector2Int.zero - displacement;
+                        }
+                        impactBlocks[block] = impactBlocks.GetOrDefault(block, 0) | impactDirection;
+                        handledMoveBlocks.Add(block);
+                        if (HasAttribute(block, AttributeCategory.Push))
+                        {
+                            for (var pushPosition = position + impactDisplacement; InMap(pushPosition); pushPosition += impactDisplacement)
+                            {
+                                var pushBlocks = m_map[pushPosition.x, pushPosition.y];
+                                var hasPush = false;
+                                foreach (var pushBlock in pushBlocks)
+                                {
+                                    if (HasAttribute(pushBlock, AttributeCategory.Push))
+                                    {
+                                        impactBlocks[pushBlock] = impactBlocks.GetOrDefault(pushBlock, 0) | impactDirection;
+                                        hasPush = true;
+                                    }
+                                }
+                                if (!hasPush)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                        if (HasAttribute(block, AttributeCategory.Pull))
+                        {
+                            for (var pullPosition = position - impactDisplacement; InMap(pullPosition); pullPosition -= impactDisplacement)
+                            {
+                                var pullBlocks = m_map[pullPosition.x, pullPosition.y];
+                                var hasPull = false;
+                                foreach (var pullBlock in pullBlocks)
+                                {
+                                    if (HasAttribute(pullBlock, AttributeCategory.Pull))
+                                    {
+                                        impactBlocks[pullBlock] = impactBlocks.GetOrDefault(pullBlock, 0) | impactDirection;
+                                        hasPull = true;
+                                    }
+                                }
+                                if (!hasPull)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                for (var position = positiveEndPosition - displacement; position != negativeEndPosition; position -= displacement)
+                {
+                    var blocks = m_map[position.x, position.y];
+                    foreach (var block in blocks)
+                    {
+                        if (impactBlocks.GetOrDefault(block, 0) == 3)
+                        {
+                            impactBlocks[block] = 0;
+                        }
+                    }
+                }
+                {
+                    var stopPosition = positiveEndPosition - displacement;
+                    {
+                        var blocks = m_map[stopPosition.x, stopPosition.y];
+                        foreach (var block in blocks)
+                        {
+                            var impact = 0;
+                            if (impactBlocks.TryGetValue(block, out impact))
+                            {
+                                impactBlocks[block] &= ~1;
+                            }
+                        }
+                    }
+                }
+                {
+                    var stopPosition = negativeEndPosition + displacement;
+                    {
+                        var blocks = m_map[stopPosition.x, stopPosition.y];
+                        foreach (var block in blocks)
+                        {
+                            var impact = 0;
+                            if (impactBlocks.TryGetValue(block, out impact))
+                            {
+                                impactBlocks[block] &= ~2;
+                            }
+                        }
+                    }
+                }
+                for (var position = positiveEndPosition - displacement; position != negativeEndPosition + displacement; position -= displacement)
+                {
+                    var hasStop = false;
+                    {
+                        var blocks = m_map[position.x, position.y];
+                        foreach (var block in blocks)
+                        {
+                            if (HasAttribute(block, AttributeCategory.Stop) || HasAttribute(block, AttributeCategory.Pull) || HasAttribute(block, AttributeCategory.Push))
+                            {
+                                if ((impactBlocks.GetOrDefault(block, 0) & 1) == 0)
+                                {
+                                    hasStop = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (hasStop)
+                    {
+                        var stopPosition = position - displacement;
+                        {
+                            var blocks = m_map[stopPosition.x, stopPosition.y];
+                            foreach (var block in blocks)
+                            {
+                                var impact = 0;
+                                if (impactBlocks.TryGetValue(block, out impact))
+                                {
+                                    impactBlocks[block] &= ~1;
+                                }
+                            }
+                        }
+                    }
+                }
+                for (var position = negativeEndPosition + displacement; position != positiveEndPosition - displacement; position += displacement)
+                {
+                    var hasStop = false;
+                    {
+                        var blocks = m_map[position.x, position.y];
+                        foreach (var block in blocks)
+                        {
+                            if (HasAttribute(block, AttributeCategory.Stop) || HasAttribute(block, AttributeCategory.Pull) || HasAttribute(block, AttributeCategory.Push))
+                            {
+                                if ((impactBlocks.GetOrDefault(block, 0) & 2) == 0)
+                                {
+                                    hasStop = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (hasStop)
+                    {
+                        var stopPosition = position - displacement;
+                        {
+                            var blocks = m_map[stopPosition.x, stopPosition.y];
+                            foreach (var block in blocks)
+                            {
+                                var impact = 0;
+                                if (impactBlocks.TryGetValue(block, out impact))
+                                {
+                                    impactBlocks[block] &= ~2;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                foreach (var impactBlockPair in impactBlocks)
+                {
+                    var block = impactBlockPair.Key;
+                    var impact = impactBlockPair.Value;
+
+                    if ((impact & 1) != 0)
+                    {
+                        MoveBlock(block, moveBlock.direction, 1, tickCommands);
+                    }
+                    else if ((impact & 2) != 0)
+                    {
+                        MoveBlock(block, DirectionUtils.GetOppositeDirection(moveBlock.direction), 1, tickCommands);
+                    }
+                }
+
+                DictionaryPool<Block, int>.Release(impactBlocks);
             }
+
+            HashSetPool<Block>.Release(handledMoveBlocks);
+
+            ListPool<Block>.Release(moveBlocks);
         }
 
         public bool InMap(Vector2Int position)

@@ -15,75 +15,133 @@ MonoBehaviour:
   blocks:
   - entityType: 1
     position: {x: 11, y: 7}
+    direction: 0
   - entityType: 10001
     position: {x: 9, y: 11}
+    direction: 0
   - entityType: 40001
     position: {x: 10, y: 11}
+    direction: 0
   - entityType: 30002
     position: {x: 11, y: 11}
+    direction: 0
   - entityType: 2
     position: {x: 16, y: 7}
+    direction: 0
   - entityType: 10002
     position: {x: 16, y: 11}
+    direction: 0
   - entityType: 40001
     position: {x: 17, y: 11}
+    direction: 0
   - entityType: 30003
     position: {x: 18, y: 11}
+    direction: 0
   - entityType: 4
     position: {x: 9, y: 5}
+    direction: 0
   - entityType: 4
     position: {x: 10, y: 5}
+    direction: 0
   - entityType: 4
     position: {x: 11, y: 5}
+    direction: 0
   - entityType: 4
     position: {x: 12, y: 5}
+    direction: 0
   - entityType: 4
     position: {x: 13, y: 5}
+    direction: 0
   - entityType: 4
     position: {x: 14, y: 5}
+    direction: 0
   - entityType: 4
     position: {x: 15, y: 5}
+    direction: 0
   - entityType: 4
     position: {x: 16, y: 5}
+    direction: 0
   - entityType: 4
     position: {x: 17, y: 5}
+    direction: 0
   - entityType: 4
     position: {x: 18, y: 5}
+    direction: 0
   - entityType: 4
     position: {x: 9, y: 9}
+    direction: 0
   - entityType: 4
     position: {x: 10, y: 9}
+    direction: 0
   - entityType: 4
     position: {x: 11, y: 9}
+    direction: 0
   - entityType: 4
     position: {x: 12, y: 9}
+    direction: 0
   - entityType: 4
     position: {x: 13, y: 9}
+    direction: 0
   - entityType: 4
     position: {x: 14, y: 9}
+    direction: 0
   - entityType: 4
     position: {x: 15, y: 9}
+    direction: 0
   - entityType: 4
     position: {x: 16, y: 9}
+    direction: 0
   - entityType: 4
     position: {x: 17, y: 9}
+    direction: 0
   - entityType: 4
     position: {x: 18, y: 9}
+    direction: 0
   - entityType: 3
     position: {x: 14, y: 8}
+    direction: 0
   - entityType: 3
     position: {x: 14, y: 7}
+    direction: 0
   - entityType: 3
     position: {x: 14, y: 6}
+    direction: 0
   - entityType: 10003
     position: {x: 9, y: 3}
+    direction: 0
   - entityType: 40001
     position: {x: 10, y: 3}
+    direction: 0
   - entityType: 30001
     position: {x: 11, y: 3}
+    direction: 0
   - entityType: 10004
     position: {x: 16, y: 3}
+    direction: 0
   - entityType: 40001
     position: {x: 17, y: 3}
+    direction: 0
   - entityType: 30004
     position: {x: 18, y: 3}
+    direction: 0
+  - entityType: 10005
+    position: {x: 5, y: 10}
+    direction: 0
+  - entityType: 40001
+    position: {x: 5, y: 9}
+    direction: 0
+  - entityType: 30005
+    position: {x: 5, y: 8}
+    direction: 0
+  - entityType: 5
+    position: {x: 20, y: 5}
+    direction: 0
+  - entityType: 40001
+    position: {x: 6, y: 10}
+    direction: 0
+  - entityType: 30001
+    position: {x: 7, y: 10}
+    direction: 0
+  - entityType: 3
+    position: {x: 20, y: 6}
+    direction: 0
