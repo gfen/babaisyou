@@ -17,6 +17,8 @@ namespace Gfen.Game.Config
 
         public GameObject backgroundPrefab;
 
+        public float inputRepeatDelay;
+
         private Dictionary<int, EntityConfig> entityConfigDict = new Dictionary<int, EntityConfig>();
 
         private Dictionary<EntityCategory, EntityCategoryConfig> entityCategoryConfigDict = new Dictionary<EntityCategory, EntityCategoryConfig>();

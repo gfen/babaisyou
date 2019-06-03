@@ -4,6 +4,7 @@ using Gfen.Game.Manager;
 using Gfen.Game.Presentation;
 using Gfen.Game.UI;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 namespace Gfen.Game
 {
@@ -25,7 +26,11 @@ namespace Gfen.Game
 
         private bool m_isInGame;
 
+        private bool m_isPause;
+
         private int m_currentLevelIndex;
+
+        private float m_lastInputTime;
 
         private void Start() 
         {
@@ -37,6 +42,7 @@ namespace Gfen.Game
             uiManager.Init(this);
 
             m_isInGame = false;
+            m_isPause = false;
             m_logicGameManager = new LogicGameManager(this);
             m_presentationGameManager = new PresentationGameManager(this, m_logicGameManager);
 
@@ -47,55 +53,104 @@ namespace Gfen.Game
         {
             if (m_isInGame)
             {
-                var operationType = OperationType.None;
-                if (Input.GetKeyUp(KeyCode.UpArrow))
-                {
-                    operationType = OperationType.Up;
-                }
-                else if (Input.GetKeyUp(KeyCode.DownArrow))
-                {
-                    operationType = OperationType.Down;
-                }
-                else if (Input.GetKeyUp(KeyCode.LeftArrow))
-                {
-                    operationType = OperationType.Left;
-                }
-                else if (Input.GetKeyUp(KeyCode.RightArrow))
-                {
-                    operationType = OperationType.Right;
-                }
-                else if (Input.GetKeyUp(KeyCode.Space))
-                {
-                    operationType = OperationType.Wait;
-                }
+                HandleInput();
+            }
+        }
 
-                if (operationType != OperationType.None)
-                {
-                    m_logicGameManager.Tick(operationType);
-                    m_presentationGameManager.RefreshPresentation();
-                }
+        private void HandleInput()
+        {
+            var restart = CrossPlatformInputManager.GetButton("Restart");
+            if (restart)
+            {
+                m_lastInputTime = 0f;
+                RestartGame();
+                return;
+            }
 
-                if (Input.GetKeyUp(KeyCode.Z))
+            if (m_isPause)
+            {
+                return;
+            }
+
+            var pause = CrossPlatformInputManager.GetButton("Pause");
+            if (pause)
+            {
+                m_lastInputTime = 0f;
+                PauseGame();
+                return;
+            }
+
+            var isTimeToInputDelay = (Time.unscaledTime - m_lastInputTime) >= gameConfig.inputRepeatDelay;
+
+            var undo = CrossPlatformInputManager.GetButton("Undo");
+            var redo = CrossPlatformInputManager.GetButton("Redo");
+            if (undo)
+            {
+                if (isTimeToInputDelay)
                 {
+                    m_lastInputTime = Time.unscaledTime;
                     m_logicGameManager.Undo();
                     m_presentationGameManager.RefreshPresentation();
                 }
-                else if (Input.GetKeyUp(KeyCode.R))
+            }
+            else if (redo)
+            {
+                if (isTimeToInputDelay)
                 {
+                    m_lastInputTime = Time.unscaledTime;
                     m_logicGameManager.Redo();
                     m_presentationGameManager.RefreshPresentation();
                 }
-                else if (Input.GetKeyUp(KeyCode.Q))
-                {
-                    m_logicGameManager.RestartGame();
-                    m_presentationGameManager.RefreshPresentation();
-                }
+            }
+            else
+            {
+                var operationType = GetLogicOperation();
 
-                if (Input.GetKeyUp(KeyCode.Escape))
+                if (operationType != OperationType.None)
                 {
-                    uiManager.ShowPage<InGameSettingsPage>();
+                    if (isTimeToInputDelay)
+                    {
+                        m_lastInputTime = Time.unscaledTime;
+                        m_logicGameManager.Tick(operationType);
+                        m_presentationGameManager.RefreshPresentation();
+                    }
+                }
+                else
+                {
+                    m_lastInputTime = 0f;
                 }
             }
+        }
+
+        private OperationType GetLogicOperation()
+        {
+            var horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
+            var vertical = CrossPlatformInputManager.GetAxis("Vertical");
+            var wait = CrossPlatformInputManager.GetButton("Wait");
+
+            var operationType = OperationType.None;
+            if (vertical > 0.1f && vertical >= Mathf.Abs(horizontal))
+            {
+                operationType = OperationType.Up;
+            }
+            else if (vertical < -0.1f && vertical <= -Mathf.Abs(horizontal))
+            {
+                operationType = OperationType.Down;
+            }
+            else if (horizontal < -0.1f && horizontal <= -Mathf.Abs(vertical))
+            {
+                operationType = OperationType.Left;
+            }
+            else if (horizontal > 0.1f && horizontal >= Mathf.Abs(vertical))
+            {
+                operationType = OperationType.Right;
+            }
+            else if (wait)
+            {
+                operationType = OperationType.Wait;
+            }
+
+            return operationType;
         }
 
         public void StartGame(int levelIndex)
@@ -103,9 +158,12 @@ namespace Gfen.Game
             m_logicGameManager.StartGame(gameConfig.levelConfigs[levelIndex].map);
             m_presentationGameManager.StartPresent();
             m_isInGame = true;
+            m_isPause = false;
             m_currentLevelIndex = levelIndex;
 
             m_logicGameManager.GameEnd += OnGameEnd;
+
+            uiManager.ShowPage<GamePlayPage>();
         }
 
         public void StopGame()
@@ -115,6 +173,32 @@ namespace Gfen.Game
             m_presentationGameManager.StopPresent();
             m_logicGameManager.StopGame();
             m_isInGame = false;
+            m_isPause = false;
+
+            uiManager.HideAllPages();
+        }
+
+        public void RestartGame()
+        {
+            uiManager.HideAllPages();
+
+            m_logicGameManager.RestartGame();
+            m_presentationGameManager.RefreshPresentation();
+            m_isPause = false;
+
+            uiManager.ShowPage<GamePlayPage>();
+        }
+
+        public void PauseGame()
+        {
+            m_isPause = true;
+            uiManager.ShowPage<InGameSettingsPage>();
+        }
+
+        public void ResumeGame()
+        {
+            m_isPause = false;
+            uiManager.HidePage();
         }
 
         private void OnGameEnd(bool success)
@@ -123,6 +207,7 @@ namespace Gfen.Game
             {
                 m_isInGame = false;
                 m_levelManager.PassLevel(m_currentLevelIndex);
+
                 uiManager.ShowPage<GameSuccessPage>();
             }
         }

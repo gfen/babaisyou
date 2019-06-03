@@ -46,5 +46,15 @@ namespace Gfen.Game.UI
                 page.Hide();
             }
         }
+
+        public void HideAllPages()
+        {
+            while (m_pageStack.Count > 0)
+            {
+                var page = m_pageStack.Pop();
+
+                page.Hide();
+            }
+        }
     }
 }
