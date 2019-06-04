@@ -4,6 +4,8 @@ namespace Gfen.Game.UI
 {
     public abstract class UIPage : MonoBehaviour
     {
+        public Canvas canvas;
+        
         protected GameManager m_gameManager;
 
         public void Show(GameManager gameManager)

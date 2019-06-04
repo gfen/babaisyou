@@ -31,6 +31,7 @@ namespace Gfen.Game.UI
             var page = m_typePageDict[pageType];
 
             m_pageStack.Push(page);
+            page.canvas.sortingOrder = m_pageStack.Count*10;
 
             page.Show(m_gameManager);
 
