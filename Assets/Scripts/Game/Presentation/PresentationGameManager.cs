@@ -93,7 +93,12 @@ namespace Gfen.Game.Presentation
             presentationBlock.blockTransform = blockGameObject.transform;
 
             presentationBlock.blockTransform.SetParent(blockRoot, false);
-            presentationBlock.blockTransform.position = new Vector3(block.position.x, block.position.y, 0) + m_origin;
+            presentationBlock.blockTransform.localPosition = new Vector3(block.position.x, block.position.y, 0) + m_origin;
+            if (entityConfig.category != EntityCategory.Rule)
+            {
+                var displacement = DirectionUtils.DirectionToDisplacement(presentationBlock.block.direction);
+                presentationBlock.blockTransform.localRotation = Quaternion.LookRotation(Vector3.forward, new Vector3(displacement.x, displacement.y, 0f));
+            }
 
             m_blockDict[block] = presentationBlock;
         }

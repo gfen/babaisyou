@@ -17,6 +17,28 @@ namespace Gfen.Game.Logic
             }
         }
 
+        public static Direction DisplacementToDirection(Vector2 displacement)
+        {
+            if (displacement.x > 0 && displacement.x > Mathf.Abs(displacement.y))
+            {
+                return Direction.Right;
+            }
+            else if (displacement.x < 0 && displacement.x < -Mathf.Abs(displacement.y))
+            {
+                return Direction.Left;
+            }
+            else if (displacement.y > 0 && displacement.y > Mathf.Abs(displacement.x))
+            {
+                return Direction.Up;
+            }
+            else if (displacement.y < 0 && displacement.y < -Mathf.Abs(displacement.x))
+            {
+                return Direction.Down;
+            }
+
+            return Direction.Up;
+        }
+
         private static readonly Dictionary<Direction, HashSet<Direction>> s_parallelDirectionDict = new Dictionary<Direction, HashSet<Direction>>
         {
             { Direction.Up, new HashSet<Direction> { Direction.Up, Direction.Down } },
