@@ -158,6 +158,7 @@ namespace Gfen.Game.Logic
             m_attributeHandler.HandleAttributeYou(operationType, tickCommands);
             m_attributeHandler.HandleAttributeMove(tickCommands);
 
+            m_attributeHandler.HandleAttributeDefeat(tickCommands);
             m_attributeHandler.HandleAttributeSink(tickCommands);
 
             m_attributeHandler.RefreshAttributes();
@@ -175,11 +176,11 @@ namespace Gfen.Game.Logic
         private void CheckGameResult()
         {
             var gameResult = GetGameResult();
-            if (gameResult != GameResult.Uncertain)
+            if (gameResult == GameResult.Success)
             {
                 if (GameEnd != null)
                 {
-                    GameEnd(gameResult == GameResult.Success);
+                    GameEnd(true);
                 }
             }
         }

@@ -549,5 +549,33 @@ namespace Gfen.Game.Logic
                 return true;
             });
         }
+
+        public void HandleAttributeDefeat(Stack<Command> tickCommands)
+        {
+            m_logicGameManager.ForeachMapPosition(position =>
+            {
+                var hasDefeat = m_logicGameManager.HasAttribute(position, AttributeCategory.Defeat);
+
+                if (hasDefeat)
+                {
+                    var toDestroyBlocks = ListPool<Block>.Get();
+                    var blocks = m_logicGameManager.Map[position.x, position.y];
+                    foreach (var block in blocks)
+                    {
+                        if (HasAttribute(block, AttributeCategory.You))
+                        {
+                            toDestroyBlocks.Add(block);
+                        }
+                    }
+                    foreach (var block in toDestroyBlocks)
+                    {
+                        PerformDestroyBlockCommand(block, tickCommands);
+                    }
+                    ListPool<Block>.Release(toDestroyBlocks);
+                }
+
+                return true;
+            });
+        }
     }
 }
