@@ -8,9 +8,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d55ce05c2467814eb40c209517b9a74, type: 3}
-  m_Name: EntityBrush
+  m_Script: {fileID: 11500000, guid: 6a4d8b05ac873f448881b5cabf0f0ef0, type: 3}
+  m_Name: Level_5
   m_EditorClassIdentifier: 
-  gameConfig: {fileID: 11400000, guid: 9ca0585152052de48a35ad4817fd2128, type: 2}
-  direction: 0
-  selectedIndex: 0
+  levelName: Level 5
+  map: {fileID: 11400000, guid: e7dd0ab7b4881de4b8504a9a52fcc8f6, type: 2}

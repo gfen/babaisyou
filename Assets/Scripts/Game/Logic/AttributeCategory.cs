@@ -17,5 +17,9 @@ namespace Gfen.Game.Logic
         Stop,
 
         Sink,
+
+        Melt,
+
+        Hot,
     }
 }
