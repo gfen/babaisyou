@@ -24,7 +24,7 @@ namespace Gfen.Game.UI
             m_levelIndex = levelIndex;
 
             var levelConfig = m_gameManager.gameConfig.levelConfigs[levelIndex];
-            nameText.text = levelConfig.name;
+            nameText.text = levelConfig.levelName;
 
             passFlagGameObject.SetActive(m_gameManager.LevelManager.IsLevelPassed(levelIndex));
         }

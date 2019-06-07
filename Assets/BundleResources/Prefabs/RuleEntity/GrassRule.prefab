@@ -9,31 +9,31 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1790437259499852}
+  m_RootGameObject: {fileID: 1327502191152928}
   m_IsPrefabParent: 1
---- !u!1 &1790437259499852
+--- !u!1 &1327502191152928
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4256546902808564}
-  - component: {fileID: 212876254319988832}
-  - component: {fileID: 114742430611495788}
+  - component: {fileID: 4076428522574578}
+  - component: {fileID: 212601078734815144}
+  - component: {fileID: 114134621934212300}
   m_Layer: 0
-  m_Name: HotRule
+  m_Name: GrassRule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4256546902808564
+--- !u!4 &4076428522574578
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1790437259499852}
+  m_GameObject: {fileID: 1327502191152928}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -41,24 +41,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114742430611495788
+--- !u!114 &114134621934212300
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1790437259499852}
+  m_GameObject: {fileID: 1327502191152928}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 911afacbbc28de348a7aabd9e91fa966, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityType: 30009
---- !u!212 &212876254319988832
+  entityType: 10009
+--- !u!212 &212601078734815144
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1790437259499852}
+  m_GameObject: {fileID: 1327502191152928}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 20
-  m_Sprite: {fileID: 21300000, guid: 0b484341fad72884dae1c5c11703b25d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2095b1aa900cf444d9f4263bba9b5cec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

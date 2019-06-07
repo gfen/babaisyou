@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 348920811e7500d4c99ee36d15f6410a, type: 3}
+  m_Name: 9_Grass
+  m_EditorClassIdentifier: 
+  type: 9
+  prefab: {fileID: 1264985083236130, guid: 6bfdb013ba4487d419c3824df7e1c35d, type: 2}
+  category: 0
+  ruleCategory: 0
+  entityTypeForRule: 0
+  entityCategoryForRule: 0
+  attributeCategoryForRule: 0
+  keyWordCategoryForRule: 0
