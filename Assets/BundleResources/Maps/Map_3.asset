@@ -1,0 +1,306 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7457eaeac03c3b448b89ec11bf014ac, type: 3}
+  m_Name: Map_3
+  m_EditorClassIdentifier: 
+  size: {x: 22, y: 16}
+  blocks:
+  - entityType: 4
+    position: {x: 4, y: 1}
+    direction: 0
+  - entityType: 4
+    position: {x: 5, y: 1}
+    direction: 0
+  - entityType: 4
+    position: {x: 6, y: 1}
+    direction: 0
+  - entityType: 4
+    position: {x: 7, y: 1}
+    direction: 0
+  - entityType: 4
+    position: {x: 8, y: 1}
+    direction: 0
+  - entityType: 4
+    position: {x: 9, y: 1}
+    direction: 0
+  - entityType: 4
+    position: {x: 10, y: 1}
+    direction: 0
+  - entityType: 4
+    position: {x: 11, y: 1}
+    direction: 0
+  - entityType: 4
+    position: {x: 12, y: 1}
+    direction: 0
+  - entityType: 4
+    position: {x: 13, y: 1}
+    direction: 0
+  - entityType: 4
+    position: {x: 14, y: 1}
+    direction: 0
+  - entityType: 4
+    position: {x: 15, y: 1}
+    direction: 0
+  - entityType: 4
+    position: {x: 16, y: 1}
+    direction: 0
+  - entityType: 4
+    position: {x: 17, y: 1}
+    direction: 0
+  - entityType: 4
+    position: {x: 4, y: 2}
+    direction: 0
+  - entityType: 4
+    position: {x: 4, y: 3}
+    direction: 0
+  - entityType: 4
+    position: {x: 4, y: 4}
+    direction: 0
+  - entityType: 4
+    position: {x: 4, y: 5}
+    direction: 0
+  - entityType: 4
+    position: {x: 4, y: 6}
+    direction: 0
+  - entityType: 4
+    position: {x: 4, y: 7}
+    direction: 0
+  - entityType: 4
+    position: {x: 4, y: 8}
+    direction: 0
+  - entityType: 4
+    position: {x: 5, y: 8}
+    direction: 0
+  - entityType: 4
+    position: {x: 6, y: 8}
+    direction: 0
+  - entityType: 4
+    position: {x: 7, y: 8}
+    direction: 0
+  - entityType: 4
+    position: {x: 7, y: 9}
+    direction: 0
+  - entityType: 4
+    position: {x: 7, y: 10}
+    direction: 0
+  - entityType: 4
+    position: {x: 7, y: 11}
+    direction: 0
+  - entityType: 4
+    position: {x: 7, y: 12}
+    direction: 0
+  - entityType: 4
+    position: {x: 7, y: 13}
+    direction: 0
+  - entityType: 4
+    position: {x: 7, y: 14}
+    direction: 0
+  - entityType: 4
+    position: {x: 8, y: 14}
+    direction: 0
+  - entityType: 4
+    position: {x: 9, y: 14}
+    direction: 0
+  - entityType: 4
+    position: {x: 10, y: 14}
+    direction: 0
+  - entityType: 4
+    position: {x: 11, y: 14}
+    direction: 0
+  - entityType: 4
+    position: {x: 12, y: 14}
+    direction: 0
+  - entityType: 4
+    position: {x: 13, y: 14}
+    direction: 0
+  - entityType: 4
+    position: {x: 14, y: 14}
+    direction: 0
+  - entityType: 4
+    position: {x: 14, y: 13}
+    direction: 0
+  - entityType: 4
+    position: {x: 14, y: 12}
+    direction: 0
+  - entityType: 4
+    position: {x: 14, y: 11}
+    direction: 0
+  - entityType: 4
+    position: {x: 14, y: 10}
+    direction: 0
+  - entityType: 4
+    position: {x: 14, y: 9}
+    direction: 0
+  - entityType: 4
+    position: {x: 14, y: 8}
+    direction: 0
+  - entityType: 4
+    position: {x: 15, y: 8}
+    direction: 0
+  - entityType: 4
+    position: {x: 16, y: 8}
+    direction: 0
+  - entityType: 4
+    position: {x: 17, y: 8}
+    direction: 0
+  - entityType: 4
+    position: {x: 17, y: 7}
+    direction: 0
+  - entityType: 4
+    position: {x: 17, y: 6}
+    direction: 0
+  - entityType: 4
+    position: {x: 17, y: 5}
+    direction: 0
+  - entityType: 4
+    position: {x: 17, y: 4}
+    direction: 0
+  - entityType: 4
+    position: {x: 17, y: 3}
+    direction: 0
+  - entityType: 4
+    position: {x: 17, y: 2}
+    direction: 0
+  - entityType: 4
+    position: {x: 13, y: 8}
+    direction: 0
+  - entityType: 4
+    position: {x: 12, y: 8}
+    direction: 0
+  - entityType: 4
+    position: {x: 11, y: 8}
+    direction: 0
+  - entityType: 4
+    position: {x: 11, y: 7}
+    direction: 0
+  - entityType: 4
+    position: {x: 11, y: 6}
+    direction: 0
+  - entityType: 4
+    position: {x: 11, y: 5}
+    direction: 0
+  - entityType: 4
+    position: {x: 11, y: 3}
+    direction: 0
+  - entityType: 4
+    position: {x: 11, y: 2}
+    direction: 0
+  - entityType: 4
+    position: {x: 9, y: 4}
+    direction: 0
+  - entityType: 4
+    position: {x: 0, y: 12}
+    direction: 0
+  - entityType: 4
+    position: {x: 1, y: 12}
+    direction: 0
+  - entityType: 4
+    position: {x: 2, y: 12}
+    direction: 0
+  - entityType: 4
+    position: {x: 2, y: 13}
+    direction: 0
+  - entityType: 4
+    position: {x: 2, y: 14}
+    direction: 0
+  - entityType: 4
+    position: {x: 2, y: 15}
+    direction: 0
+  - entityType: 1
+    position: {x: 9, y: 12}
+    direction: 0
+  - entityType: 3
+    position: {x: 12, y: 12}
+    direction: 0
+  - entityType: 3
+    position: {x: 12, y: 10}
+    direction: 0
+  - entityType: 6
+    position: {x: 8, y: 8}
+    direction: 0
+  - entityType: 6
+    position: {x: 9, y: 8}
+    direction: 0
+  - entityType: 6
+    position: {x: 10, y: 8}
+    direction: 0
+  - entityType: 6
+    position: {x: 5, y: 3}
+    direction: 0
+  - entityType: 6
+    position: {x: 6, y: 3}
+    direction: 0
+  - entityType: 6
+    position: {x: 6, y: 2}
+    direction: 0
+  - entityType: 6
+    position: {x: 7, y: 2}
+    direction: 0
+  - entityType: 6
+    position: {x: 7, y: 3}
+    direction: 0
+  - entityType: 6
+    position: {x: 7, y: 4}
+    direction: 0
+  - entityType: 6
+    position: {x: 6, y: 4}
+    direction: 0
+  - entityType: 6
+    position: {x: 5, y: 4}
+    direction: 0
+  - entityType: 2
+    position: {x: 5, y: 2}
+    direction: 0
+  - entityType: 10001
+    position: {x: 0, y: 15}
+    direction: 0
+  - entityType: 40001
+    position: {x: 0, y: 14}
+    direction: 0
+  - entityType: 40001
+    position: {x: 1, y: 14}
+    direction: 0
+  - entityType: 30002
+    position: {x: 0, y: 13}
+    direction: 0
+  - entityType: 10004
+    position: {x: 1, y: 15}
+    direction: 0
+  - entityType: 30004
+    position: {x: 1, y: 13}
+    direction: 0
+  - entityType: 10006
+    position: {x: 6, y: 11}
+    direction: 0
+  - entityType: 40001
+    position: {x: 6, y: 10}
+    direction: 0
+  - entityType: 30006
+    position: {x: 6, y: 9}
+    direction: 0
+  - entityType: 10003
+    position: {x: 13, y: 6}
+    direction: 0
+  - entityType: 40001
+    position: {x: 14, y: 6}
+    direction: 0
+  - entityType: 30001
+    position: {x: 15, y: 6}
+    direction: 0
+  - entityType: 10002
+    position: {x: 13, y: 3}
+    direction: 0
+  - entityType: 40001
+    position: {x: 14, y: 3}
+    direction: 0
+  - entityType: 30003
+    position: {x: 15, y: 3}
+    direction: 0

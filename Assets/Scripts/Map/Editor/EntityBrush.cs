@@ -1,5 +1,6 @@
 using System.Linq;
 using Gfen.Game.Config;
+using Gfen.Game.Logic;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ namespace Gfen.Game.Map
     public class EntityBrush : GridBrushBase
     {
 		public GameConfig gameConfig;
+
+        public Direction direction;
 
         public int selectedIndex;
 
@@ -34,6 +37,8 @@ namespace Gfen.Game.Map
 				Undo.RegisterCreatedObjectUndo((Object)instance, "Paint Entity");
 				instance.transform.SetParent(brushTarget.transform);
 				instance.transform.position = grid.LocalToWorld(grid.CellToLocalInterpolated(new Vector3Int(position.x, position.y, 0) + new Vector3(.5f, .5f, 0f)));
+                var displacement = DirectionUtils.DirectionToDisplacement(direction);
+                instance.transform.localRotation = Quaternion.LookRotation(Vector3.forward, new Vector3(displacement.x, displacement.y, 0f));
 			}
 		}
 
@@ -99,6 +104,8 @@ namespace Gfen.Game.Map
             if (m_displayOptions != null)
             {
                 entityBrush.selectedIndex = EditorGUILayout.Popup("Select", entityBrush.selectedIndex, m_displayOptions);
+
+                entityBrush.direction = (Direction) EditorGUILayout.EnumPopup("Direction", entityBrush.direction);
             }
 
 			m_serializedObject.ApplyModifiedPropertiesWithoutUndo();

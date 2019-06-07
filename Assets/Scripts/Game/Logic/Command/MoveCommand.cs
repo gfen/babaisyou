@@ -31,7 +31,7 @@ namespace Gfen.Game.Logic
         {
             var displacement = DirectionUtils.DirectionToDisplacement(m_targetDirection)*m_targetLength;
 
-            m_logicGameManager.SetBlockPosition(m_block, m_block.position + displacement);
+            m_logicGameManager.MoveBlock(m_block, m_block.position + displacement);
             m_block.direction = m_targetDirection;
 
             if (m_logicGameManager.BlockMoved != null)
@@ -42,7 +42,7 @@ namespace Gfen.Game.Logic
 
         protected override void OnUndo()
         {
-            m_logicGameManager.SetBlockPosition(m_block, m_originalPosition);
+            m_logicGameManager.MoveBlock(m_block, m_originalPosition);
             m_block.direction = m_originalDirection;
         }
     }

@@ -17,7 +17,7 @@ namespace Gfen.Game.Logic
 
         protected override void OnApplyPersistent()
         {
-            m_logicGameManager.SetAttributeForEntityType(m_entityType, m_attributeCategory);
+            m_logicGameManager.AttributeHandler.SetAttributeForEntityType(m_entityType, m_attributeCategory);
         }
     }
 }

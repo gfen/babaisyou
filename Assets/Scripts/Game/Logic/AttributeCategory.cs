@@ -15,5 +15,7 @@ namespace Gfen.Game.Logic
         Pull,
 
         Stop,
+
+        Sink,
     }
 }
