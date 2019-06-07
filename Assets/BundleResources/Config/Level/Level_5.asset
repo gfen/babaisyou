@@ -11,5 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a4d8b05ac873f448881b5cabf0f0ef0, type: 3}
   m_Name: Level_5
   m_EditorClassIdentifier: 
-  levelName: Level 5
+  levelName: "\u706B\u5C71"
   map: {fileID: 11400000, guid: e7dd0ab7b4881de4b8504a9a52fcc8f6, type: 2}
