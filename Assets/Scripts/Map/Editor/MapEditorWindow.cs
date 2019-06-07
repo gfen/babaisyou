@@ -151,7 +151,7 @@ namespace Gfen.Game.Map
                     var entityConfig = m_config.GetEntityConfig(mapBlock.entityType);
                     var instantiatedBlock = Object.Instantiate(entityConfig.prefab);
                     instantiatedBlock.transform.SetParent(mapRoot.transform, false);
-                    instantiatedBlock.transform.localPosition = new Vector3(mapBlock.position.x, mapBlock.position.y, 0);
+                    instantiatedBlock.transform.localPosition = new Vector3(mapBlock.position.x, mapBlock.position.y, 0) + new Vector3(0.5f, 0.5f, 0f);
                     var displacement = DirectionUtils.DirectionToDisplacement(mapBlock.direction);
                     instantiatedBlock.transform.localRotation = Quaternion.LookRotation(Vector3.forward, new Vector3(displacement.x, displacement.y, 0f));
                 }
@@ -174,7 +174,7 @@ namespace Gfen.Game.Map
                     mapBlocks.Add(new MapBlock 
                     { 
                         entityType = mapBlockIdentifier.entityType, 
-                        position = new Vector2Int(Mathf.RoundToInt(mapBlockTransform.localPosition.x), Mathf.RoundToInt(mapBlockTransform.localPosition.y)),
+                        position = new Vector2Int(Mathf.RoundToInt(mapBlockTransform.localPosition.x - 0.5f), Mathf.RoundToInt(mapBlockTransform.localPosition.y - 0.5f)),
                         direction = DirectionUtils.DisplacementToDirection(new Vector2(mapBlockTransform.up.x, mapBlockTransform.up.y)),
                     });
                 }

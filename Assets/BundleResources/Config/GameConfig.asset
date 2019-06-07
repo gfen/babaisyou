@@ -33,6 +33,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c761b7331e3e990439f0c5bfb8cc0270, type: 2}
   levelConfigs:
   - {fileID: 11400000, guid: 2da8e01ce0bc13846b6155db7e400e97, type: 2}
+  - {fileID: 11400000, guid: cd48338d5009dae47a0082fcfef1a877, type: 2}
   backgroundPrefab: {fileID: 1798064068406830, guid: 81426acf110b12345a73a4c3088a969b,
     type: 2}
   inputRepeatDelay: 0.75
