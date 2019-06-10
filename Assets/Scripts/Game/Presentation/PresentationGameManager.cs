@@ -55,7 +55,16 @@ namespace Gfen.Game.Presentation
                 }
             }
 
-            m_gameManager.gameCamera.orthographicSize = mapYLength/2f;
+            var screenRatio = ((float)Screen.width)*0.77f/Screen.height;
+            var mapRatio = ((float)mapXLength)/mapYLength;
+            if (screenRatio > mapRatio)
+            {
+                m_gameManager.gameCamera.orthographicSize = mapYLength*0.5f;
+            }
+            else
+            {
+                m_gameManager.gameCamera.orthographicSize = mapXLength/screenRatio*0.5f;
+            }
         }
 
         public void StopPresent()
