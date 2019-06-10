@@ -30,6 +30,15 @@ namespace Gfen.Game.UI
             var pageType = typeof(T);
             var page = m_typePageDict[pageType];
 
+            if (m_pageStack.Count > 0)
+            {
+                var topPage = m_pageStack.Peek();
+                if (topPage != null)
+                {
+                    topPage.Hide();
+                }
+            }
+
             m_pageStack.Push(page);
             page.canvas.sortingOrder = m_pageStack.Count*10;
 
@@ -45,6 +54,15 @@ namespace Gfen.Game.UI
                 var page = m_pageStack.Pop();
 
                 page.Hide();
+            }
+
+            if (m_pageStack.Count > 0)
+            {
+                var topPage = m_pageStack.Peek();
+                if (topPage != null)
+                {
+                    topPage.Show(m_gameManager);
+                }
             }
         }
 

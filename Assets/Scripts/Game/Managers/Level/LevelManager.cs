@@ -1,3 +1,4 @@
+using Gfen.Game.Utility;
 using UnityEngine;
 
 namespace Gfen.Game.Manager
@@ -6,10 +7,14 @@ namespace Gfen.Game.Manager
     {
         private const string InfoKey = "LevelManagerInfo";
 
+        private GameManager m_gameManager;
+
         private LevelManagerInfo m_managerInfo = new LevelManagerInfo();
 
-        public void Init()
+        public void Init(GameManager gameManager)
         {
+            m_gameManager = gameManager;
+
             LoadInfo();
         }
 
@@ -25,20 +30,53 @@ namespace Gfen.Game.Manager
             PlayerPrefs.SetString(InfoKey, json);
         }
 
-        public bool IsLevelPassed(int levelIndex)
+        public bool IsChapterPassed(int chapterIndex)
         {
-            var isPassed = 0;
-            if (m_managerInfo.levelInfo.TryGetValue(levelIndex, out isPassed))
+            var chapterInfoDict = m_managerInfo.chapterInfoDict.GetOrDefault(chapterIndex, null);
+            if (chapterInfoDict == null)
             {
-                return isPassed > 0;
+                return false;
             }
 
-            return false;
+            var levelConfigs = m_gameManager.gameConfig.chapterConfigs[chapterIndex].levelConfigs;
+            for (var i = 0; i < levelConfigs.Length; i++)
+            {
+                if (chapterInfoDict.levelInfoDict.GetOrDefault(i, 0) == 0)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
-        public void PassLevel(int levelIndex)
+        public bool IsLevelPassed(int chapterIndex, int levelIndex)
         {
-            m_managerInfo.levelInfo[levelIndex] = 1;
+            var chapterInfoDict = m_managerInfo.chapterInfoDict.GetOrDefault(chapterIndex, null);
+            if (chapterInfoDict == null)
+            {
+                return false;
+            }
+
+            return chapterInfoDict.levelInfoDict.GetOrDefault(levelIndex, 0) > 0;
+        }
+
+        public void SetStayChapterIndex(int chapterIndex)
+        {
+            m_managerInfo.lastStayChapterIndex = chapterIndex;
+
+            SaveInfo();
+        }
+
+        public int GetStayChapterIndex()
+        {
+            return m_managerInfo.lastStayChapterIndex;
+        }
+
+        public void PassLevel(int chapterIndex, int levelIndex)
+        {
+            var chapterInfo = m_managerInfo.chapterInfoDict.GetOrSet(chapterIndex, () => new ChapterInfo());
+            chapterInfo.levelInfoDict[levelIndex] = 1;
 
             SaveInfo();
         }

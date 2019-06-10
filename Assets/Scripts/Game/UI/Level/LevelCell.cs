@@ -6,33 +6,35 @@ namespace Gfen.Game.UI
 {
     public class LevelCell : UICell
     {
-        public Button selectLevelButton;
+        public Button selectButton;
 
         public Text nameText;
 
         public GameObject passFlagGameObject;
 
+        private int m_chapterIndex;
+
         private int m_levelIndex;
 
         private void Awake() 
         {
-            selectLevelButton.onClick.AddListener(OnSelectLevelButtonClicked);
+            selectButton.onClick.AddListener(OnSelectButtonClicked);
         }
         
-        public void SetContent(int levelIndex)
+        public void SetContent(int chapterIndex, int levelIndex)
         {
+            m_chapterIndex = chapterIndex;
             m_levelIndex = levelIndex;
 
-            var levelConfig = m_gameManager.gameConfig.levelConfigs[levelIndex];
+            var levelConfig = m_gameManager.gameConfig.chapterConfigs[chapterIndex].levelConfigs[levelIndex];
             nameText.text = string.Format("{0} {1}", levelIndex + 1, levelConfig.levelName);
 
-            passFlagGameObject.SetActive(m_gameManager.LevelManager.IsLevelPassed(levelIndex));
+            passFlagGameObject.SetActive(m_gameManager.LevelManager.IsLevelPassed(chapterIndex, levelIndex));
         }
 
-        private void OnSelectLevelButtonClicked()
+        private void OnSelectButtonClicked()
         {
-            m_gameManager.uiManager.HidePage();
-            m_gameManager.StartGame(m_levelIndex);
+            m_gameManager.StartGame(m_chapterIndex, m_levelIndex);
         }
     }
 }

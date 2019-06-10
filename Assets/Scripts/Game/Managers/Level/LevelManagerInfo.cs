@@ -6,6 +6,16 @@ namespace Gfen.Game.Manager
     [Serializable]
     public class LevelManagerInfo
     {
-        public SerializableDictionaryOfIntAndInt levelInfo = new SerializableDictionaryOfIntAndInt();
+        public int lastStayChapterIndex = -1;
+
+        public SerializableDictionaryOfIntAndChapterInfo chapterInfoDict = new SerializableDictionaryOfIntAndChapterInfo();
+    }
+
+    public class SerializableDictionaryOfIntAndChapterInfo : SerializableDictionary<int, ChapterInfo> { }
+
+    [Serializable]
+    public class ChapterInfo
+    {
+        public SerializableDictionaryOfIntAndInt levelInfoDict = new SerializableDictionaryOfIntAndInt();
     }
 }

@@ -13,7 +13,7 @@ namespace Gfen.Game.Config
 
         public EntityCategoryConfig[] entityCategoryConfigs;
 
-        public LevelConfig[] levelConfigs;
+        public ChapterConfig[] chapterConfigs;
 
         public GameObject backgroundPrefab;
 

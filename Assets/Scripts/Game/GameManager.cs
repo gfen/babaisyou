@@ -28,6 +28,8 @@ namespace Gfen.Game
 
         private bool m_isPause;
 
+        private int m_currentChapterIndex;
+
         private int m_currentLevelIndex;
 
         private float m_lastInputTime;
@@ -37,7 +39,7 @@ namespace Gfen.Game
             gameConfig.Init();
 
             m_levelManager = new LevelManager();
-            m_levelManager.Init();
+            m_levelManager.Init(this);
 
             uiManager.Init(this);
 
@@ -46,7 +48,13 @@ namespace Gfen.Game
             m_logicGameManager = new LogicGameManager(this);
             m_presentationGameManager = new PresentationGameManager(this, m_logicGameManager);
 
-            uiManager.ShowPage<LevelPage>();
+            var stayChapterIndex = m_levelManager.GetStayChapterIndex();
+            uiManager.ShowPage<ChapterPage>();
+            if (stayChapterIndex >= 0)
+            {
+                var levelPage = uiManager.ShowPage<LevelPage>();
+                levelPage.SetContent(stayChapterIndex);
+            }
         }
 
         private void Update() 
@@ -153,12 +161,15 @@ namespace Gfen.Game
             return operationType;
         }
 
-        public void StartGame(int levelIndex)
+        public void StartGame(int chapterIndex, int levelIndex)
         {
-            m_logicGameManager.StartGame(gameConfig.levelConfigs[levelIndex].map);
+            uiManager.HideAllPages();
+
+            m_logicGameManager.StartGame(gameConfig.chapterConfigs[chapterIndex].levelConfigs[levelIndex].map);
             m_presentationGameManager.StartPresent();
             m_isInGame = true;
             m_isPause = false;
+            m_currentChapterIndex = chapterIndex;
             m_currentLevelIndex = levelIndex;
 
             m_logicGameManager.GameEnd += OnGameEnd;
@@ -206,7 +217,7 @@ namespace Gfen.Game
             if (success)
             {
                 m_isInGame = false;
-                m_levelManager.PassLevel(m_currentLevelIndex);
+                m_levelManager.PassLevel(m_currentChapterIndex, m_currentLevelIndex);
 
                 uiManager.ShowPage<GameSuccessPage>();
             }

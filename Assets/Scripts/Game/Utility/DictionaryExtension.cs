@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Gfen.Game.Utility
@@ -13,6 +14,20 @@ namespace Gfen.Game.Utility
             }
 
             return defaultValue;
+        }
+
+        public static TValue GetOrSet<TKey, TValue>(this Dictionary<TKey, TValue> thisDictionary, TKey key, Func<TValue> valueGetter)
+        {
+            TValue value;
+            if (thisDictionary.TryGetValue(key, out value))
+            {
+                return value;
+            }
+
+            value = valueGetter();
+            thisDictionary[key] = value;
+
+            return value;
         }
     }
 }
