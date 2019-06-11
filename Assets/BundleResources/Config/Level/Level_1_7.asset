@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a4d8b05ac873f448881b5cabf0f0ef0, type: 3}
+  m_Name: Level_1_7
+  m_EditorClassIdentifier: 
+  levelName: "\u957F\u8349\u7684\u9662\u5B50"
+  map: {fileID: 11400000, guid: f56c9599b9d76e44c929a4bdf99755d6, type: 2}

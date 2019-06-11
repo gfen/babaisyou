@@ -16,8 +16,6 @@ namespace Gfen.Game.UI
             m_gameManager.uiManager.HidePage();
             
             m_gameManager.StopGame();
-
-            m_gameManager.uiManager.ShowPage<LevelPage>();
         }
     }
 }

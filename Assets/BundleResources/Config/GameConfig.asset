@@ -21,6 +21,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e49b55f021125544aa073740637f7945, type: 2}
   - {fileID: 11400000, guid: 200f7f395c8d116479092ea214b990a6, type: 2}
   - {fileID: 11400000, guid: e7d76259a279a0e4387acf920455673b, type: 2}
+  - {fileID: 11400000, guid: 6b15d912a49819b478b35b85fbc705be, type: 2}
+  - {fileID: 11400000, guid: e2b0d144b46d4b94a8315677ee038105, type: 2}
   - {fileID: 11400000, guid: b25c3be3576289347ae45b4ab4d3a008, type: 2}
   - {fileID: 11400000, guid: dcb767a06372d8c46ad87b4ef154c554, type: 2}
   - {fileID: 11400000, guid: 06a0d2e5f07005b4db4d2cbde8715291, type: 2}
@@ -30,6 +32,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7302a482d57e43b479fa7bb8c4223345, type: 2}
   - {fileID: 11400000, guid: a1197c8aa1cedfc4ca3c9d40e5fb5edc, type: 2}
   - {fileID: 11400000, guid: f9ebb70c1b173a94584872cbc9f5d2a2, type: 2}
+  - {fileID: 11400000, guid: a547dedab6167604ba12ce8307dd7062, type: 2}
+  - {fileID: 11400000, guid: 824d693083f947145afc09ba4738d766, type: 2}
   - {fileID: 11400000, guid: 431c342738d41b044ac820e7b95166c9, type: 2}
   - {fileID: 11400000, guid: 02dca5ebc4c1c7f41818df2ba6892c2f, type: 2}
   - {fileID: 11400000, guid: 5b336eefb8cbb9d40a71debc870c8856, type: 2}
@@ -40,11 +44,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cdc51a82caf3bf248a7b92b6573df656, type: 2}
   - {fileID: 11400000, guid: 93ebd7440ed144d408396b3ce7cc9792, type: 2}
   - {fileID: 11400000, guid: e391a27133582054893123c069c01227, type: 2}
+  - {fileID: 11400000, guid: 1d70f7e323e07d74290bf9fac68a358b, type: 2}
   entityCategoryConfigs:
   - {fileID: 11400000, guid: f525d085a7e2b53428fe4d087499f891, type: 2}
   - {fileID: 11400000, guid: c761b7331e3e990439f0c5bfb8cc0270, type: 2}
   chapterConfigs:
   - {fileID: 11400000, guid: 84f5bb5a682a5974d90165621d583699, type: 2}
+  - {fileID: 11400000, guid: 89e3c0ec6faf8c64a8ac818aeaac727b, type: 2}
   backgroundPrefab: {fileID: 1798064068406830, guid: 81426acf110b12345a73a4c3088a969b,
     type: 2}
-  inputRepeatDelay: 0.75
+  inputRepeatDelay: 0.5

@@ -187,6 +187,10 @@ namespace Gfen.Game
             m_isPause = false;
 
             uiManager.HideAllPages();
+
+            uiManager.ShowPage<ChapterPage>();
+            var levelPage = uiManager.ShowPage<LevelPage>();
+            levelPage.SetContent(m_currentChapterIndex);
         }
 
         public void RestartGame()

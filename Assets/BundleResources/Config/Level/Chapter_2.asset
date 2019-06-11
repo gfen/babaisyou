@@ -8,8 +8,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a4d8b05ac873f448881b5cabf0f0ef0, type: 3}
-  m_Name: Level_4
+  m_Script: {fileID: 11500000, guid: 084bae7acf2bdc9408d4177a934c3408, type: 3}
+  m_Name: Chapter_2
   m_EditorClassIdentifier: 
-  levelName: "\u4F9D\u7136\u591F\u4E0D\u7740"
-  map: {fileID: 11400000, guid: 7f342f317c9be81478c697dfac741cfc, type: 2}
+  chapterName: "\u6E56"
+  levelConfigs:
+  - {fileID: 11400000, guid: 7b868bd9f2004ce4eb96f97ecaeae33b, type: 2}

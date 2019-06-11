@@ -25,8 +25,6 @@ namespace Gfen.Game.UI
         private void OnStopGameButtonClicked()
         {
             m_gameManager.StopGame();
-
-            m_gameManager.uiManager.ShowPage<LevelPage>();
         }
 
         private void OnRestartGameButtonClicked()
