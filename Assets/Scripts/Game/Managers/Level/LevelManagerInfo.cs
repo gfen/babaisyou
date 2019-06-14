@@ -11,6 +11,7 @@ namespace Gfen.Game.Manager
         public SerializableDictionaryOfIntAndChapterInfo chapterInfoDict = new SerializableDictionaryOfIntAndChapterInfo();
     }
 
+    [Serializable]
     public class SerializableDictionaryOfIntAndChapterInfo : SerializableDictionary<int, ChapterInfo> { }
 
     [Serializable]

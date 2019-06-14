@@ -14,3 +14,4 @@ MonoBehaviour:
   chapterName: "\u6E56"
   levelConfigs:
   - {fileID: 11400000, guid: 7b868bd9f2004ce4eb96f97ecaeae33b, type: 2}
+  - {fileID: 11400000, guid: b12354826240fcb44b93614aaf2d2ef4, type: 2}
