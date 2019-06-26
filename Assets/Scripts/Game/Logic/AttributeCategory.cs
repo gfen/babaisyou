@@ -21,5 +21,9 @@ namespace Gfen.Game.Logic
         Melt,
 
         Hot,
+
+        Open,
+
+        Shut,
     }
 }

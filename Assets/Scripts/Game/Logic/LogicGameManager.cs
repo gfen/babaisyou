@@ -160,7 +160,7 @@ namespace Gfen.Game.Logic
 
             m_attributeHandler.HandleAttributeDefeat(tickCommands);
             m_attributeHandler.HandleAttributeSink(tickCommands);
-            m_attributeHandler.HandleAttributeHot(tickCommands);
+            m_attributeHandler.HandleAttributeHotAndMelt(tickCommands);
 
             m_attributeHandler.RefreshAttributes();
 

@@ -234,6 +234,8 @@ namespace Gfen.Game.Logic
                 }
             }
 
+            HandlePreMove(impactBlocks, displacement, tickCommands);
+
             {
                 var stopPosition = positiveEndPosition - displacement;
                 {
@@ -287,7 +289,7 @@ namespace Gfen.Game.Logic
                 var block = impactBlockPair.Key;
                 var impact = impactBlockPair.Value;
 
-                if ((impact & 1) != 0)
+                if (impact == 1)
                 {
                     PerformMoveBlockCommand(block, moveDirection, 1, tickCommands);
                 }
@@ -393,6 +395,9 @@ namespace Gfen.Game.Logic
                     }
                 }
             }
+
+            HandlePreMove(impactBlocks, scanDisplacement, tickCommands);
+
             {
                 var stopPosition = positiveEndPosition - scanDisplacement;
                 {
@@ -430,7 +435,7 @@ namespace Gfen.Game.Logic
                     {
                         if (HasAttribute(block, AttributeCategory.Stop) || HasAttribute(block, AttributeCategory.Pull) || HasAttribute(block, AttributeCategory.Push))
                         {
-                            if ((impactBlocks.GetOrDefault(block, 0) & 1) == 0)
+                            if (impactBlocks.GetOrDefault(block, 0) != 1)
                             {
                                 hasStop = true;
                                 break;
@@ -463,7 +468,7 @@ namespace Gfen.Game.Logic
                     {
                         if (HasAttribute(block, AttributeCategory.Stop) || HasAttribute(block, AttributeCategory.Pull) || HasAttribute(block, AttributeCategory.Push))
                         {
-                            if ((impactBlocks.GetOrDefault(block, 0) & 2) == 0)
+                            if (impactBlocks.GetOrDefault(block, 0) != 2)
                             {
                                 hasStop = true;
                                 break;
@@ -502,11 +507,11 @@ namespace Gfen.Game.Logic
                 }
                 else
                 {
-                    if ((impact & 1) != 0)
+                    if (impact == 1)
                     {
                         PerformMoveBlockCommand(block, scanDirection, 1, tickCommands);
                     }
-                    else if ((impact & 2) != 0)
+                    else if (impact == 2)
                     {
                         PerformMoveBlockCommand(block, DirectionUtils.GetOppositeDirection(scanDirection), 1, tickCommands);
                     }
@@ -514,6 +519,11 @@ namespace Gfen.Game.Logic
             }
 
             DictionaryPool<Block, int>.Release(impactBlocks);
+        }
+
+        private void HandlePreMove(Dictionary<Block, int> impactBlocks, Vector2Int scanDisplacement, Stack<Command> tickCommands)
+        {
+            HandleAttributeOpenAndShut(impactBlocks, scanDisplacement, tickCommands);
         }
 
         public void HandleAttributeSink(Stack<Command> tickCommands)
@@ -578,7 +588,7 @@ namespace Gfen.Game.Logic
             });
         }
 
-        public void HandleAttributeHot(Stack<Command> tickCommands)
+        public void HandleAttributeHotAndMelt(Stack<Command> tickCommands)
         {
             m_logicGameManager.ForeachMapPosition(position =>
             {
@@ -604,6 +614,52 @@ namespace Gfen.Game.Logic
 
                 return true;
             });
+        }
+
+        private void HandleAttributeOpenAndShut(Dictionary<Block, int> impactBlocks, Vector2Int scanDisplacement, Stack<Command> tickCommands)
+        {
+            var toDestroyBlocks = HashSetPool<Block>.Get();
+
+            foreach (var impactBlockPair in impactBlocks)
+            {
+                var block = impactBlockPair.Key;
+                var impact = impactBlockPair.Value;
+
+                var isOpen = HasAttribute(block, AttributeCategory.Open);
+                var isShut = HasAttribute(block, AttributeCategory.Shut);
+                if (!isOpen && !isShut)
+                {
+                    continue;
+                }
+
+                var preMovePosition = impact == 1 ? block.position + scanDisplacement : block.position - scanDisplacement;
+                var preMovePositionBlocks = m_logicGameManager.Map[preMovePosition.x, preMovePosition.y];
+                foreach (var preMovePositionBlock in preMovePositionBlocks)
+                {
+                    if (toDestroyBlocks.Contains(preMovePositionBlock))
+                    {
+                        continue;
+                    }
+
+                    if ((isOpen && HasAttribute(preMovePositionBlock, AttributeCategory.Shut)) || (isShut && HasAttribute(preMovePositionBlock, AttributeCategory.Open)))
+                    {
+                        toDestroyBlocks.Add(block);
+                        toDestroyBlocks.Add(preMovePositionBlock);
+                        break;
+                    }
+                }
+            }
+
+            foreach (var block in toDestroyBlocks)
+            {
+                if (impactBlocks.ContainsKey(block))
+                {
+                    impactBlocks.Remove(block);
+                }
+                PerformDestroyBlockCommand(block, tickCommands);
+            }
+
+            HashSetPool<Block>.Release(toDestroyBlocks);
         }
     }
 }
