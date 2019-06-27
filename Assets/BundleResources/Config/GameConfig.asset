@@ -71,4 +71,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 89e3c0ec6faf8c64a8ac818aeaac727b, type: 2}
   backgroundPrefab: {fileID: 1798064068406830, guid: 81426acf110b12345a73a4c3088a969b,
     type: 2}
-  inputRepeatDelay: 0.5
+  inputRepeatDelay: 0.25
