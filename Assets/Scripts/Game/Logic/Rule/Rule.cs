@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 
 namespace Gfen.Game.Logic
 {
-    public abstract class Rule
+    public abstract class Rule : IEquatable<Rule>
     {
         public void ApplyPersistent()
         {
@@ -14,6 +15,11 @@ namespace Gfen.Game.Logic
             OnApplyAction(tickCommands);
         }
 
+        public bool Equals(Rule other)
+        {
+            return OnEquals(other);
+        }
+
         protected virtual void OnApplyPersistent()
         {
 
@@ -23,5 +29,7 @@ namespace Gfen.Game.Logic
         {
 
         }
+
+        protected abstract bool OnEquals(Rule other);
     }
 }

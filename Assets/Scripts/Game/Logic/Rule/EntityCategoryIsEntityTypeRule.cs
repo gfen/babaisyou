@@ -36,6 +36,17 @@ namespace Gfen.Game.Logic
             }
         }
 
+        protected override bool OnEquals(Rule other)
+        {
+            var otherEntityCategoryIsEntityTypeRule = other as EntityCategoryIsEntityTypeRule;
+            if (otherEntityCategoryIsEntityTypeRule == null)
+            {
+                return false;
+            }
+
+            return m_originalEntityCategory == otherEntityCategoryIsEntityTypeRule.m_originalEntityCategory && m_targetEntityType == otherEntityCategoryIsEntityTypeRule.m_targetEntityType;
+        }
+
         private void ConverseTargetBlock(Block block, Stack<Command> tickCommands)
         {
             var blockEntityCategory = m_logicGameManager.GameManager.gameConfig.GetEntityConfig(block.entityType).category;

@@ -19,5 +19,16 @@ namespace Gfen.Game.Logic
         {
             m_logicGameManager.AttributeHandler.SetAttributeForEntityType(m_entityType, m_attributeCategory);
         }
+
+        protected override bool OnEquals(Rule other)
+        {
+            var otherEntityTypeIsAttributeRule = other as EntityTypeIsAttributeRule;
+            if (otherEntityTypeIsAttributeRule == null)
+            {
+                return false;
+            }
+
+            return m_entityType == otherEntityTypeIsAttributeRule.m_entityType && m_attributeCategory == otherEntityTypeIsAttributeRule.m_attributeCategory;
+        }
     }
 }
